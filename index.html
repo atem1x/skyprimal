@@ -40,11 +40,15 @@ body{
   overflow-x:hidden;
 }
 /* ============ LANGUAGE TOGGLE ============ */
-.lang-ru{display:none}
-body.ru .lang-ru{display:revert}
-body.ru .lang-en{display:none}
-h1 .lang-ru,h2 .lang-ru,h3 .lang-ru,span.lang-ru,a .lang-ru,button .lang-ru{display:none}
+.lang-ru,.lang-uk,.lang-fr{display:none}
+body.ru .lang-ru,body.uk .lang-uk,body.fr .lang-fr{display:revert}
+body.ru .lang-en,body.uk .lang-en,body.fr .lang-en{display:none}
+h1 .lang-ru,h2 .lang-ru,h3 .lang-ru,span.lang-ru,a .lang-ru,button .lang-ru,
+h1 .lang-uk,h2 .lang-uk,h3 .lang-uk,span.lang-uk,a .lang-uk,button .lang-uk,
+h1 .lang-fr,h2 .lang-fr,h3 .lang-fr,span.lang-fr,a .lang-fr,button .lang-fr{display:none}
 body.ru h1 .lang-ru,body.ru h2 .lang-ru,body.ru h3 .lang-ru,body.ru span.lang-ru,body.ru a .lang-ru,body.ru button .lang-ru{display:inline}
+body.uk h1 .lang-uk,body.uk h2 .lang-uk,body.uk h3 .lang-uk,body.uk span.lang-uk,body.uk a .lang-uk,body.uk button .lang-uk{display:inline}
+body.fr h1 .lang-fr,body.fr h2 .lang-fr,body.fr h3 .lang-fr,body.fr span.lang-fr,body.fr a .lang-fr,body.fr button .lang-fr{display:inline}
 img{max-width:100%;display:block}
 a{color:inherit;text-decoration:none}
 ul{list-style:none}
@@ -96,9 +100,22 @@ h1,h2,h3,h4{font-family:var(--font-d);text-transform:uppercase;letter-spacing:.0
 .lang-btn{
   font-family:var(--font-d);font-size:13px;font-weight:700;letter-spacing:.1em;
   color:var(--text);background:rgba(232,238,248,.07);border:1px solid var(--line);
-  padding:9px 14px;cursor:pointer;border-radius:2px;transition:background .2s,border-color .2s;
+  padding:9px 14px;cursor:pointer;border-radius:2px;transition:background .2s,border-color .2s;white-space:nowrap;
 }
 .lang-btn:hover{background:rgba(232,238,248,.14);border-color:rgba(120,160,220,.4)}
+.lang-wrap{position:relative}
+.lang-menu{
+  position:absolute;top:calc(100% + 10px);right:0;min-width:158px;display:none;
+  background:var(--panel);border:1px solid var(--line);border-radius:2px;z-index:130;
+  box-shadow:0 14px 40px rgba(0,0,0,.5);padding:6px 0;
+}
+.lang-menu.open{display:block}
+.lang-menu button{
+  display:block;width:100%;text-align:left;padding:10px 16px;background:none;border:none;cursor:pointer;
+  font-family:var(--font-d);font-size:13px;letter-spacing:.06em;color:var(--muted);transition:background .15s,color .15s;
+}
+.lang-menu button:hover{background:rgba(232,238,248,.08);color:var(--text)}
+.lang-menu button.active{color:var(--teal)}
 .burger{display:none;margin-left:auto;background:none;border:none;cursor:pointer;padding:8px}
 /* ============ BETA RIBBON ============ */
 .beta-ribbon{
@@ -340,7 +357,7 @@ footer{border-top:1px solid var(--line);padding:64px 0 40px;background:#04060c}
 </head>
 <body>
 
-<div class="beta-ribbon"><span class="lang-en">BETA</span><span class="lang-ru">БЕТА</span></div>
+<div class="beta-ribbon"><span class="lang-en">BETA</span><span class="lang-ru">БЕТА</span><span class="lang-uk">БЕТА</span><span class="lang-fr">BÊTA</span></div>
 
 <!-- ================= NAV ================= -->
 <nav class="nav" id="nav">
@@ -356,15 +373,23 @@ footer{border-top:1px solid var(--line);padding:64px 0 40px;background:#04060c}
       SKY<b>PRIMAL</b>
     </a>
     <div class="nav-links" id="navLinks">
-      <a href="#news"><span class="lang-en">News</span><span class="lang-ru">Новости</span></a>
-      <a href="#about"><span class="lang-en">About</span><span class="lang-ru">Об игре</span></a>
-      <a href="#features"><span class="lang-en">Features</span><span class="lang-ru">Особенности</span></a>
-      <a href="#media"><span class="lang-en">Media</span><span class="lang-ru">Медиа</span></a>
-      <a href="#roadmap"><span class="lang-en">Roadmap</span><span class="lang-ru">Роадмап</span></a>
+      <a href="#news"><span class="lang-en">News</span><span class="lang-ru">Новости</span><span class="lang-uk">Новини</span><span class="lang-fr">Actus</span></a>
+      <a href="#about"><span class="lang-en">About</span><span class="lang-ru">Об игре</span><span class="lang-uk">Про гру</span><span class="lang-fr">À propos</span></a>
+      <a href="#features"><span class="lang-en">Features</span><span class="lang-ru">Особенности</span><span class="lang-uk">Особливості</span><span class="lang-fr">Le jeu</span></a>
+      <a href="#media"><span class="lang-en">Media</span><span class="lang-ru">Медиа</span><span class="lang-uk">Медіа</span><span class="lang-fr">Médias</span></a>
+      <a href="#roadmap"><span class="lang-en">Roadmap</span><span class="lang-ru">Роадмап</span><span class="lang-uk">Роадмап</span><span class="lang-fr">Roadmap</span></a>
     </div>
-    <button class="lang-btn" id="langBtn" aria-label="Switch language">RU</button>
+    <div class="lang-wrap">
+      <button class="lang-btn" id="langBtn" aria-label="Switch language" aria-haspopup="true">EN ▾</button>
+      <div class="lang-menu" id="langMenu">
+        <button data-lang="en">English</button>
+        <button data-lang="ru">Русский</button>
+        <button data-lang="uk">Українська</button>
+        <button data-lang="fr">Français</button>
+      </div>
+    </div>
     <a class="btn btn-primary nav-cta" href="https://store.steampowered.com/app/1218480" target="_blank" rel="noopener">
-      <span class="lang-en">Play&nbsp;Now</span><span class="lang-ru">Играть</span>
+      <span class="lang-en">Play&nbsp;Now</span><span class="lang-ru">Играть</span><span class="lang-uk">Грати</span><span class="lang-fr">Jouer</span>
     </a>
     <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
   </div>
@@ -379,17 +404,21 @@ footer{border-top:1px solid var(--line);padding:64px 0 40px;background:#04060c}
   <div class="hero-content">
     <div class="hero-tag lang-en">Survive &nbsp;·&nbsp; Unite &nbsp;·&nbsp; Conquer</div>
     <div class="hero-tag lang-ru">Выживай &nbsp;·&nbsp; Объединяй &nbsp;·&nbsp; Покоряй</div>
+    <div class="hero-tag lang-uk">Виживай &nbsp;·&nbsp; Об'єднуй &nbsp;·&nbsp; Підкорюй</div>
+    <div class="hero-tag lang-fr">Survivre &nbsp;·&nbsp; S'unir &nbsp;·&nbsp; Conquérir</div>
     <h1>SKYPRIMAL</h1>
     <p class="hero-sub lang-en">Having lost your tribe, you are the sole survivor in an era of deadly danger. Build a shelter, forge weapons, found a new tribe — and lead it to supremacy.</p>
     <p class="hero-sub lang-ru">Потеряв своё племя, ты — единственный выживший в эпохе смертельных опасностей. Построй укрытие, создай оружие, собери новое племя — и приведи его к величию.</p>
+    <p class="hero-sub lang-uk">Втративши своє плем'я, ти — єдиний, хто вижив в епоху смертельних небезпек. Побудуй укриття, створи зброю, збери нове плем'я — і приведи його до величі.</p>
+    <p class="hero-sub lang-fr">Ta tribu a disparu : tu es l'unique survivant d'une ère de dangers mortels. Construis un abri, forge des armes, fonde une nouvelle tribu — et mène-la vers la gloire.</p>
     <div class="hero-btns">
       <a class="btn btn-primary" href="https://store.steampowered.com/app/1218480" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-10 9.3l5.4 2.2a2.8 2.8 0 0 1 1.6-.5h.2l2.4-3.5v-.1a3.8 3.8 0 1 1 3.8 3.8h-.1L11.9 16v.2a2.8 2.8 0 0 1-5.6.3l-3.9-1.6A10 10 0 1 0 12 2zm-5.7 13.9 1.3.5a2.1 2.1 0 1 0 1.1-2.7l1.3.5a1.6 1.6 0 0 1-3.7 1.7zm11.5-8.6a2.5 2.5 0 1 0-5 0 2.5 2.5 0 0 0 5 0zm-4.4 0a1.9 1.9 0 1 1 3.8 0 1.9 1.9 0 0 1-3.8 0z"/></svg>
-        <span class="lang-en">Play now on Steam</span><span class="lang-ru">Играть в Steam</span>
+        <span class="lang-en">Play now on Steam</span><span class="lang-ru">Играть в Steam</span><span class="lang-uk">Грати в Steam</span><span class="lang-fr">Jouer sur Steam</span>
       </a>
       <a class="btn btn-ghost" href="#trailer">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-        <span class="lang-en">Watch Trailer</span><span class="lang-ru">Смотреть трейлер</span>
+        <span class="lang-en">Watch Trailer</span><span class="lang-ru">Смотреть трейлер</span><span class="lang-uk">Дивитися трейлер</span><span class="lang-fr">Bande-annonce</span>
       </a>
     </div>
   </div>
@@ -403,9 +432,13 @@ footer{border-top:1px solid var(--line);padding:64px 0 40px;background:#04060c}
   <div class="banner-inner">
     <span class="banner-pill lang-en">EARLY ACCESS</span>
     <span class="banner-pill lang-ru">РАННИЙ ДОСТУП</span>
+    <span class="banner-pill lang-uk">РАННІЙ ДОСТУП</span>
+    <span class="banner-pill lang-fr">ACCÈS ANTICIPÉ</span>
     <span class="banner-text lang-en">SkyPrimal is live on Steam Early Access — join the tribe for $6.99</span>
     <span class="banner-text lang-ru">SkyPrimal уже в раннем доступе Steam — присоединяйся к племени</span>
-    <a href="https://store.steampowered.com/app/1218480" target="_blank" rel="noopener"><span class="lang-en">Open Steam</span><span class="lang-ru">Открыть Steam</span> →</a>
+    <span class="banner-text lang-uk">SkyPrimal вже у ранньому доступі Steam — приєднуйся до племені</span>
+    <span class="banner-text lang-fr">SkyPrimal est disponible en accès anticipé sur Steam — rejoins la tribu</span>
+    <a href="https://store.steampowered.com/app/1218480" target="_blank" rel="noopener"><span class="lang-en">Open Steam</span><span class="lang-ru">Открыть Steam</span><span class="lang-uk">Відкрити Steam</span><span class="lang-fr">Ouvrir Steam</span> →</a>
   </div>
 </div>
 
@@ -415,7 +448,9 @@ footer{border-top:1px solid var(--line);padding:64px 0 40px;background:#04060c}
     <div class="sec-head reveal">
       <span class="kicker lang-en">Official Trailer</span>
       <span class="kicker lang-ru">Официальный трейлер</span>
-      <h2><span class="lang-en">See the primal world come alive</span><span class="lang-ru">Первобытный мир оживает</span></h2>
+      <span class="kicker lang-uk">Офіційний трейлер</span>
+      <span class="kicker lang-fr">Bande-annonce officielle</span>
+      <h2><span class="lang-en">See the primal world come alive</span><span class="lang-ru">Первобытный мир оживает</span><span class="lang-uk">Первісний світ оживає</span><span class="lang-fr">Le monde primitif prend vie</span></h2>
     </div>
     <a class="trailer-frame reveal" href="https://store.steampowered.com/app/1218480" target="_blank" rel="noopener" aria-label="Watch trailer on Steam" style="display:block">
       <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1218480/ss_c1b40e06d207794de061a34d4bf8aab0864dd8bd.1920x1080.jpg" alt="SkyPrimal gameplay" loading="lazy">
@@ -423,6 +458,8 @@ footer{border-top:1px solid var(--line);padding:64px 0 40px;background:#04060c}
     </a>
     <p class="trailer-note lang-en">The full trailer is on our Steam page — click to watch.</p>
     <p class="trailer-note lang-ru">Полный трейлер — на нашей странице в Steam, кликни, чтобы посмотреть.</p>
+    <p class="trailer-note lang-uk">Повний трейлер — на нашій сторінці в Steam, натисни, щоб подивитися.</p>
+    <p class="trailer-note lang-fr">La bande-annonce complète est sur notre page Steam — clique pour la voir.</p>
   </div>
 </section>
 
@@ -432,7 +469,9 @@ footer{border-top:1px solid var(--line);padding:64px 0 40px;background:#04060c}
     <div class="sec-head reveal">
       <span class="kicker lang-en">Latest News</span>
       <span class="kicker lang-ru">Последние новости</span>
-      <h2><span class="lang-en">From the tribe fire</span><span class="lang-ru">Новости у костра</span></h2>
+      <span class="kicker lang-uk">Останні новини</span>
+      <span class="kicker lang-fr">Dernières actualités</span>
+      <h2><span class="lang-en">From the tribe fire</span><span class="lang-ru">Новости у костра</span><span class="lang-uk">Новини біля вогнища</span><span class="lang-fr">Autour du feu de camp</span></h2>
     </div>
     <div class="news-grid">
       <article class="news-card reveal d1">
@@ -440,9 +479,11 @@ footer{border-top:1px solid var(--line);padding:64px 0 40px;background:#04060c}
         <div class="news-body">
           <span class="news-date lang-en">IN DEVELOPMENT</span>
           <span class="news-date lang-ru">В РАЗРАБОТКЕ</span>
-          <h3><span class="lang-en">Tribes &amp; settlements are coming</span><span class="lang-ru">Племена и поселения уже близко</span></h3>
-          <p><span class="lang-en">Found your own tribe, grow a camp into a settlement and defend it against rival clans.</span><span class="lang-ru">Основывай собственное племя, превращай лагерь в поселение и защищай его от враждебных кланов.</span></p>
-          <span class="news-more"><span class="lang-en">Read more</span><span class="lang-ru">Читать</span> →</span>
+          <span class="news-date lang-uk">В РОЗРОБЦІ</span>
+          <span class="news-date lang-fr">EN DÉVELOPPEMENT</span>
+          <h3><span class="lang-en">Tribes &amp; settlements are coming</span><span class="lang-ru">Племена и поселения уже близко</span><span class="lang-uk">Племена та поселення вже близько</span><span class="lang-fr">Tribus et villages arrivent</span></h3>
+          <p><span class="lang-en">Found your own tribe, grow a camp into a settlement and defend it against rival clans.</span><span class="lang-ru">Основывай собственное племя, превращай лагерь в поселение и защищай его от враждебных кланов.</span><span class="lang-uk">Засновуй власне плем'я, перетворюй табір на поселення та захищай його від ворожих кланів.</span><span class="lang-fr">Fonde ta propre tribu, transforme ton camp en village et défends-le contre les clans rivaux.</span></p>
+          <span class="news-more"><span class="lang-en">Read more</span><span class="lang-ru">Читать</span><span class="lang-uk">Читати</span><span class="lang-fr">Lire</span> →</span>
         </div>
       </article>
       <article class="news-card reveal d2">
@@ -450,9 +491,11 @@ footer{border-top:1px solid var(--line);padding:64px 0 40px;background:#04060c}
         <div class="news-body">
           <span class="news-date lang-en">DEV DIARY</span>
           <span class="news-date lang-ru">ДНЕВНИК РАЗРАБОТКИ</span>
-          <h3><span class="lang-en">Capture or recruit: NPC system</span><span class="lang-ru">Пленить или завербовать: система НПС</span></h3>
-          <p><span class="lang-en">Defeated enemies don't have to die — take them prisoner or win them over to grow your tribe.</span><span class="lang-ru">Побеждённым врагам не обязательно умирать — бери их в плен или переманивай в своё племя.</span></p>
-          <span class="news-more"><span class="lang-en">Read more</span><span class="lang-ru">Читать</span> →</span>
+          <span class="news-date lang-uk">ЩОДЕННИК РОЗРОБКИ</span>
+          <span class="news-date lang-fr">JOURNAL DE DEV</span>
+          <h3><span class="lang-en">Capture or recruit: NPC system</span><span class="lang-ru">Пленить или завербовать: система НПС</span><span class="lang-uk">Полонити чи завербувати: система НПС</span><span class="lang-fr">Capturer ou recruter : les PNJ</span></h3>
+          <p><span class="lang-en">Defeated enemies don't have to die — take them prisoner or win them over to grow your tribe.</span><span class="lang-ru">Побеждённым врагам не обязательно умирать — бери их в плен или переманивай в своё племя.</span><span class="lang-uk">Переможеним ворогам не обов'язково помирати — бери їх у полон або перемани до свого племені.</span><span class="lang-fr">Les ennemis vaincus n'ont pas à mourir : fais-les prisonniers ou rallie-les à ta tribu.</span></p>
+          <span class="news-more"><span class="lang-en">Read more</span><span class="lang-ru">Читать</span><span class="lang-uk">Читати</span><span class="lang-fr">Lire</span> →</span>
         </div>
       </article>
       <article class="news-card reveal d3">
@@ -460,9 +503,11 @@ footer{border-top:1px solid var(--line);padding:64px 0 40px;background:#04060c}
         <div class="news-body">
           <span class="news-date lang-en">DEV DIARY</span>
           <span class="news-date lang-ru">ДНЕВНИК РАЗРАБОТКИ</span>
-          <h3><span class="lang-en">Advanced weather is on the way</span><span class="lang-ru">Продвинутая погода в пути</span></h3>
-          <p><span class="lang-en">Rain that floods rivers, storms that break camps, seasons that change how you hunt and farm.</span><span class="lang-ru">Дожди, разливающие реки, бури, ломающие лагеря, и сезоны, меняющие охоту и земледелие.</span></p>
-          <span class="news-more"><span class="lang-en">Read more</span><span class="lang-ru">Читать</span> →</span>
+          <span class="news-date lang-uk">ЩОДЕННИК РОЗРОБКИ</span>
+          <span class="news-date lang-fr">JOURNAL DE DEV</span>
+          <h3><span class="lang-en">Advanced weather is on the way</span><span class="lang-ru">Продвинутая погода в пути</span><span class="lang-uk">Просунута погода вже в дорозі</span><span class="lang-fr">La météo avancée arrive</span></h3>
+          <p><span class="lang-en">Rain that floods rivers, storms that break camps, seasons that change how you hunt and farm.</span><span class="lang-ru">Дожди, разливающие реки, бури, ломающие лагеря, и сезоны, меняющие охоту и земледелие.</span><span class="lang-uk">Дощі, що розливають річки, бурі, що ламають табори, і сезони, що змінюють полювання та землеробство.</span><span class="lang-fr">Des pluies qui font déborder les rivières, des tempêtes qui brisent les camps, des saisons qui changent la chasse et l'agriculture.</span></p>
+          <span class="news-more"><span class="lang-en">Read more</span><span class="lang-ru">Читать</span><span class="lang-uk">Читати</span><span class="lang-fr">Lire</span> →</span>
         </div>
       </article>
     </div>
@@ -475,11 +520,17 @@ footer{border-top:1px solid var(--line);padding:64px 0 40px;background:#04060c}
   <div class="wrap vision-inner reveal">
     <span class="kicker lang-en">About the game</span>
     <span class="kicker lang-ru">Об игре</span>
-    <h2><span class="lang-en">An era of deadly danger</span><span class="lang-ru">Эпоха смертельных опасностей</span></h2>
+    <span class="kicker lang-uk">Про гру</span>
+    <span class="kicker lang-fr">À propos du jeu</span>
+    <h2><span class="lang-en">An era of deadly danger</span><span class="lang-ru">Эпоха смертельных опасностей</span><span class="lang-uk">Епоха смертельних небезпек</span><span class="lang-fr">Une ère de dangers mortels</span></h2>
     <p class="lang-en">Your tribe is gone. Alone in a randomly generated prehistoric world of five wild biomes, you start with bare hands: build a shelter, craft tools and weapons, hunt, fish and survive the night.</p>
     <p class="lang-ru">Твоего племени больше нет. Один в случайно генерируемом первобытном мире с пятью дикими биомами, ты начинаешь с голыми руками: строишь укрытие, создаёшь орудия и оружие, охотишься, рыбачишь и переживаешь ночь.</p>
+    <p class="lang-uk">Твого племені більше немає. Сам у випадково згенерованому первісному світі з п'ятьма дикими біомами, ти починаєш з голими руками: будуєш укриття, створюєш знаряддя і зброю, полюєш, рибалиш і переживаєш ніч.</p>
+    <p class="lang-fr">Ta tribu n'est plus. Seul dans un monde préhistorique généré aléatoirement, aux cinq biomes sauvages, tu commences les mains nues : construis un abri, fabrique outils et armes, chasse, pêche et survis à la nuit.</p>
     <p class="lang-en">But survival is only the beginning. <span class="accent">SkyPrimal</span> is about founding a <span class="accent2">new tribe</span>: raise a settlement, tame beasts, farm the land, trade with neighbours — or wage war, capture their warriors and turn them into your own.</p>
     <p class="lang-ru">Но выживание — лишь начало. <span class="accent">SkyPrimal</span> — игра про создание <span class="accent2">нового племени</span>: строй поселение, приручай зверей, возделывай землю, торгуй с соседями — или веди войну, бери пленных и делай их своими.</p>
+    <p class="lang-uk">Але виживання — лише початок. <span class="accent">SkyPrimal</span> — гра про створення <span class="accent2">нового племені</span>: зводь поселення, приручай звірів, обробляй землю, торгуй із сусідами — або веди війну, бери полонених і роби їх своїми.</p>
+    <p class="lang-fr">Mais survivre n'est que le début. <span class="accent">SkyPrimal</span>, c'est fonder une <span class="accent2">nouvelle tribu</span> : bâtis une colonie, apprivoise les bêtes, cultive la terre, commerce avec tes voisins — ou fais la guerre, capture leurs guerriers et fais-en les tiens.</p>
   </div>
 </section>
 
@@ -489,53 +540,55 @@ footer{border-top:1px solid var(--line);padding:64px 0 40px;background:#04060c}
     <div class="sec-head reveal">
       <span class="kicker lang-en">Game Features</span>
       <span class="kicker lang-ru">Особенности игры</span>
-      <h2><span class="lang-en">Forge your tribe's legend</span><span class="lang-ru">Куй легенду своего племени</span></h2>
+      <span class="kicker lang-uk">Особливості гри</span>
+      <span class="kicker lang-fr">Caractéristiques du jeu</span>
+      <h2><span class="lang-en">Forge your tribe's legend</span><span class="lang-ru">Куй легенду своего племени</span><span class="lang-uk">Куй легенду свого племені</span><span class="lang-fr">Forge la légende de ta tribu</span></h2>
     </div>
     <div class="feat-grid">
       <div class="feat-card reveal d1">
         <div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M3 21h18M12 3L4 11v10h5v-6h6v6h5V11z"/></svg></div>
-        <h3><span class="lang-en">Build your settlement</span><span class="lang-ru">Строй своё поселение</span></h3>
-        <p><span class="lang-en">From a campfire and a hut to a fortified village: dozens of buildings, tools and equipment to craft.</span><span class="lang-ru">От костра и хижины до укреплённой деревни: десятки построек, орудий и снаряжения для крафта.</span></p>
+        <h3><span class="lang-en">Build your settlement</span><span class="lang-ru">Строй своё поселение</span><span class="lang-uk">Будуй своє поселення</span><span class="lang-fr">Bâtis ta colonie</span></h3>
+        <p><span class="lang-en">From a campfire and a hut to a fortified village: dozens of buildings, tools and equipment to craft.</span><span class="lang-ru">От костра и хижины до укреплённой деревни: десятки построек, орудий и снаряжения для крафта.</span><span class="lang-uk">Від багаття й хатини до укріпленого селища: десятки будівель, знарядь і спорядження для крафту.</span><span class="lang-fr">Du feu de camp au village fortifié : des dizaines de bâtiments, d'outils et d'équipements à fabriquer.</span></p>
       </div>
       <div class="feat-card reveal d2">
         <div class="feat-icon"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><circle cx="17" cy="10" r="2.5"/><path d="M2.5 20c.8-3.5 3.4-5.5 6.5-5.5s5.7 2 6.5 5.5M14.5 15.6c2.4.4 4.3 2 5 4.4"/></svg></div>
-        <h3><span class="lang-en">Co-op &amp; your own tribe</span><span class="lang-ru">Кооператив и своё племя</span></h3>
-        <p><span class="lang-en">Survive together: found a tribe with friends, share a settlement and divide the work between hunters, builders and farmers.</span><span class="lang-ru">Выживайте вместе: основывай племя с друзьями, делите поселение и роли — охотники, строители, фермеры.</span></p>
+        <h3><span class="lang-en">Co-op &amp; your own tribe</span><span class="lang-ru">Кооператив и своё племя</span><span class="lang-uk">Кооператив і власне плем'я</span><span class="lang-fr">Coop et ta propre tribu</span></h3>
+        <p><span class="lang-en">Survive together: found a tribe with friends, share a settlement and divide the work between hunters, builders and farmers.</span><span class="lang-ru">Выживайте вместе: основывай племя с друзьями, делите поселение и роли — охотники, строители, фермеры.</span><span class="lang-uk">Виживайте разом: засновуй плем'я з друзями, діліть поселення та ролі — мисливці, будівельники, фермери.</span><span class="lang-fr">Survivez ensemble : fonde une tribu avec tes amis, partagez la colonie et les rôles — chasseurs, bâtisseurs, fermiers.</span></p>
       </div>
       <div class="feat-card reveal d3">
         <div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M3 21l6-6M14 4l6 6M4 10l10 10M20 4l-8 8M4 4l3 3M17 17l3 3"/></svg></div>
-        <h3><span class="lang-en">War between tribes</span><span class="lang-ru">Война племён</span></h3>
-        <p><span class="lang-en">Rival tribes want your land. Raid their camps, defend your walls and fight for supremacy over the valley.</span><span class="lang-ru">Соседним племенам нужна твоя земля. Совершай набеги, защищай стены и сражайся за господство над долиной.</span></p>
+        <h3><span class="lang-en">War between tribes</span><span class="lang-ru">Война племён</span><span class="lang-uk">Війна племен</span><span class="lang-fr">Guerre entre tribus</span></h3>
+        <p><span class="lang-en">Rival tribes want your land. Raid their camps, defend your walls and fight for supremacy over the valley.</span><span class="lang-ru">Соседним племенам нужна твоя земля. Совершай набеги, защищай стены и сражайся за господство над долиной.</span><span class="lang-uk">Сусіднім племенам потрібна твоя земля. Здійснюй набіги, захищай стіни та бийся за панування над долиною.</span><span class="lang-fr">Les tribus rivales veulent tes terres. Pille leurs camps, défends tes murs et bats-toi pour dominer la vallée.</span></p>
       </div>
       <div class="feat-card reveal d1">
         <div class="feat-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="7" r="3.5"/><path d="M5.5 21c.7-4 3.2-6.5 6.5-6.5s5.8 2.5 6.5 6.5M9 17l-2 4M15 17l2 4"/></svg></div>
-        <h3><span class="lang-en">Capture &amp; recruit NPCs</span><span class="lang-ru">Плен и вербовка НПС</span></h3>
-        <p><span class="lang-en">Take prisoners from enemy tribes — or win their loyalty and let them hunt, guard and build for you.</span><span class="lang-ru">Бери жителей чужих племён в плен — или заслужи их преданность, и они будут охотиться, охранять и строить для тебя.</span></p>
+        <h3><span class="lang-en">Capture &amp; recruit NPCs</span><span class="lang-ru">Плен и вербовка НПС</span><span class="lang-uk">Полон і вербування НПС</span><span class="lang-fr">Capture et recrutement de PNJ</span></h3>
+        <p><span class="lang-en">Take prisoners from enemy tribes — or win their loyalty and let them hunt, guard and build for you.</span><span class="lang-ru">Бери жителей чужих племён в плен — или заслужи их преданность, и они будут охотиться, охранять и строить для тебя.</span><span class="lang-uk">Бери мешканців чужих племен у полон — або заслужи їхню відданість, і вони полюватимуть, охоронятимуть і будуватимуть для тебе.</span><span class="lang-fr">Fais prisonniers les membres des tribus ennemies — ou gagne leur loyauté : ils chasseront, garderont et construiront pour toi.</span></p>
       </div>
       <div class="feat-card reveal d2">
         <div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M17 18a4 4 0 0 0 0-8 5.5 5.5 0 0 0-10.4-1.6A4.5 4.5 0 0 0 7 18z"/><path d="M8 21l1-1.8M12 22l1-1.8M16 21l1-1.8"/></svg></div>
-        <h3><span class="lang-en">Advanced weather</span><span class="lang-ru">Продвинутая погода</span></h3>
-        <p><span class="lang-en">Dynamic rains, storms, fog and heat. Weather changes hunting, farming and war — adapt or perish.</span><span class="lang-ru">Динамические дожди, бури, туман и зной. Погода меняет охоту, земледелие и войну — приспосабливайся или погибни.</span></p>
+        <h3><span class="lang-en">Advanced weather</span><span class="lang-ru">Продвинутая погода</span><span class="lang-uk">Просунута погода</span><span class="lang-fr">Météo avancée</span></h3>
+        <p><span class="lang-en">Dynamic rains, storms, fog and heat. Weather changes hunting, farming and war — adapt or perish.</span><span class="lang-ru">Динамические дожди, бури, туман и зной. Погода меняет охоту, земледелие и войну — приспосабливайся или погибни.</span><span class="lang-uk">Динамічні дощі, бурі, туман і спека. Погода змінює полювання, землеробство та війну — пристосовуйся або загинь.</span><span class="lang-fr">Pluies dynamiques, tempêtes, brouillard et canicule. La météo change la chasse, l'agriculture et la guerre — adapte-toi ou péris.</span></p>
       </div>
       <div class="feat-card reveal d3">
         <div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M4 7h13l3 3-3 3H4zM20 17H7l-3-3"/><path d="M8 4v3M8 13v3"/></svg></div>
-        <h3><span class="lang-en">Barter &amp; trade</span><span class="lang-ru">Обмен и торговля</span></h3>
-        <p><span class="lang-en">An advanced barter economy: exchange resources, tools and livestock with friendly tribes and traders.</span><span class="lang-ru">Продвинутая экономика обмена: меняйся ресурсами, орудиями и скотом с дружественными племенами и торговцами.</span></p>
+        <h3><span class="lang-en">Barter &amp; trade</span><span class="lang-ru">Обмен и торговля</span><span class="lang-uk">Обмін і торгівля</span><span class="lang-fr">Troc et commerce</span></h3>
+        <p><span class="lang-en">An advanced barter economy: exchange resources, tools and livestock with friendly tribes and traders.</span><span class="lang-ru">Продвинутая экономика обмена: меняйся ресурсами, орудиями и скотом с дружественными племенами и торговцами.</span><span class="lang-uk">Просунута економіка обміну: міняйся ресурсами, знаряддями та худобою з дружніми племенами й торговцями.</span><span class="lang-fr">Une économie de troc avancée : échange ressources, outils et bétail avec les tribus amies et les marchands.</span></p>
       </div>
       <div class="feat-card reveal d1">
         <div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M4 16c2-6 6-10 8-10s6 4 8 10c-2 2-5 3-8 3s-6-1-8-3zM12 6V3M8 19l-1.5 2.5M16 19l1.5 2.5"/></svg></div>
-        <h3><span class="lang-en">Tame wild animals</span><span class="lang-ru">Приручай диких зверей</span></h3>
-        <p><span class="lang-en">Every beast can be a threat — or an ally. Tame predators to guard your camp and beasts of burden to carry your loot.</span><span class="lang-ru">Каждый зверь — угроза или союзник. Приручай хищников для охраны лагеря и вьючных животных для перевозки добычи.</span></p>
+        <h3><span class="lang-en">Tame wild animals</span><span class="lang-ru">Приручай диких зверей</span><span class="lang-uk">Приручай диких звірів</span><span class="lang-fr">Apprivoise les bêtes sauvages</span></h3>
+        <p><span class="lang-en">Every beast can be a threat — or an ally. Tame predators to guard your camp and beasts of burden to carry your loot.</span><span class="lang-ru">Каждый зверь — угроза или союзник. Приручай хищников для охраны лагеря и вьючных животных для перевозки добычи.</span><span class="lang-uk">Кожен звір — загроза або союзник. Приручай хижаків для охорони табору та в'ючних тварин для перевезення здобичі.</span><span class="lang-fr">Chaque bête est une menace — ou une alliée. Apprivoise des prédateurs pour garder ton camp et des bêtes de somme pour porter ton butin.</span></p>
       </div>
       <div class="feat-card reveal d2">
         <div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M12 21V11M12 11c0-3-2-5-5-5 0 3 2 5 5 5zM12 11c0-3 2-5 5-5 0 3-2 5-5 5zM5 21h14"/></svg></div>
-        <h3><span class="lang-en">Farming &amp; husbandry</span><span class="lang-ru">Фермерство и скотоводство</span></h3>
-        <p><span class="lang-en">Primal agriculture: plant crops, breed domestic animals and secure food for your growing tribe.</span><span class="lang-ru">Первобытное земледелие: сажай культуры, разводи домашних животных и обеспечивай едой растущее племя.</span></p>
+        <h3><span class="lang-en">Farming &amp; husbandry</span><span class="lang-ru">Фермерство и скотоводство</span><span class="lang-uk">Фермерство і скотарство</span><span class="lang-fr">Agriculture et élevage</span></h3>
+        <p><span class="lang-en">Primal agriculture: plant crops, breed domestic animals and secure food for your growing tribe.</span><span class="lang-ru">Первобытное земледелие: сажай культуры, разводи домашних животных и обеспечивай едой растущее племя.</span><span class="lang-uk">Первісне землеробство: сади культури, розводь свійських тварин і забезпечуй їжею зростаюче плем'я.</span><span class="lang-fr">Agriculture primitive : plante des cultures, élève des animaux domestiques et nourris ta tribu grandissante.</span></p>
       </div>
       <div class="feat-card reveal d3">
         <div class="feat-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3.5 9h17M3.5 15h17M12 3c-2.5 2.7-3.8 5.8-3.8 9s1.3 6.3 3.8 9c2.5-2.7 3.8-5.8 3.8-9S14.5 5.7 12 3z"/></svg></div>
-        <h3><span class="lang-en">Generated world, 5 biomes</span><span class="lang-ru">Генерируемый мир, 5 биомов</span></h3>
-        <p><span class="lang-en">Every playthrough is a new prehistoric world: five distinct biomes full of resources, beasts and secrets.</span><span class="lang-ru">Каждое прохождение — новый первобытный мир: пять разных биомов, полных ресурсов, зверей и тайн.</span></p>
+        <h3><span class="lang-en">Generated world, 5 biomes</span><span class="lang-ru">Генерируемый мир, 5 биомов</span><span class="lang-uk">Згенерований світ, 5 біомів</span><span class="lang-fr">Monde généré, 5 biomes</span></h3>
+        <p><span class="lang-en">Every playthrough is a new prehistoric world: five distinct biomes full of resources, beasts and secrets.</span><span class="lang-ru">Каждое прохождение — новый первобытный мир: пять разных биомов, полных ресурсов, зверей и тайн.</span><span class="lang-uk">Кожне проходження — новий первісний світ: п'ять різних біомів, повних ресурсів, звірів і таємниць.</span><span class="lang-fr">Chaque partie est un nouveau monde préhistorique : cinq biomes distincts, pleins de ressources, de bêtes et de secrets.</span></p>
       </div>
     </div>
   </div>
@@ -547,15 +600,17 @@ footer{border-top:1px solid var(--line);padding:64px 0 40px;background:#04060c}
     <div class="sec-head reveal">
       <span class="kicker lang-en">Media</span>
       <span class="kicker lang-ru">Медиа</span>
-      <h2><span class="lang-en">Postcards from the stone age</span><span class="lang-ru">Открытки из каменного века</span></h2>
-      <p><span class="lang-en">Real in-game screenshots from the current Early Access build.</span><span class="lang-ru">Настоящие скриншоты из текущей версии раннего доступа.</span></p>
+      <span class="kicker lang-uk">Медіа</span>
+      <span class="kicker lang-fr">Médias</span>
+      <h2><span class="lang-en">Postcards from the stone age</span><span class="lang-ru">Открытки из каменного века</span><span class="lang-uk">Листівки з кам'яного віку</span><span class="lang-fr">Cartes postales de l'âge de pierre</span></h2>
+      <p><span class="lang-en">Real in-game screenshots from the current Early Access build.</span><span class="lang-ru">Настоящие скриншоты из текущей версии раннего доступа.</span><span class="lang-uk">Справжні скриншоти з поточної версії раннього доступу.</span><span class="lang-fr">De vraies captures d'écran de la version actuelle en accès anticipé.</span></p>
     </div>
     <div class="media-grid">
-      <div class="media-item wide reveal d1"><img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1218480/ss_49329c362419118187814fe619d605c0f27b01f1.1920x1080.jpg" alt="SkyPrimal screenshot" loading="lazy"><span class="lang-en">First camp</span><span class="lang-ru">Первый лагерь</span></div>
-      <div class="media-item reveal d2"><img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1218480/ss_c1b40e06d207794de061a34d4bf8aab0864dd8bd.1920x1080.jpg" alt="SkyPrimal screenshot" loading="lazy"><span class="lang-en">Into the wild</span><span class="lang-ru">В дикие земли</span></div>
-      <div class="media-item reveal d1"><img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1218480/ss_dfe99253b88468ff3c054c5b031ae17af978ade3.1920x1080.jpg" alt="SkyPrimal screenshot" loading="lazy"><span class="lang-en">The hunt</span><span class="lang-ru">Охота</span></div>
-      <div class="media-item wide reveal d2"><img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1218480/ss_22663986498f90690f308bf74c75b8462e8b802f.1920x1080.jpg" alt="SkyPrimal screenshot" loading="lazy"><span class="lang-en">Home before dark</span><span class="lang-ru">Домой до темноты</span></div>
-      <div class="media-item reveal d1" style="grid-column:1/-1"><img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1218480/ss_2c2020591a34735f74d0fbc5500e670e6ce17862.1920x1080.jpg" alt="SkyPrimal screenshot" loading="lazy" style="aspect-ratio:21/8"><span class="lang-en">New lands ahead</span><span class="lang-ru">Впереди новые земли</span></div>
+      <div class="media-item wide reveal d1"><img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1218480/ss_49329c362419118187814fe619d605c0f27b01f1.1920x1080.jpg" alt="SkyPrimal screenshot" loading="lazy"><span class="lang-en">First camp</span><span class="lang-ru">Первый лагерь</span><span class="lang-uk">Перший табір</span><span class="lang-fr">Premier camp</span></div>
+      <div class="media-item reveal d2"><img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1218480/ss_c1b40e06d207794de061a34d4bf8aab0864dd8bd.1920x1080.jpg" alt="SkyPrimal screenshot" loading="lazy"><span class="lang-en">Into the wild</span><span class="lang-ru">В дикие земли</span><span class="lang-uk">У дикі землі</span><span class="lang-fr">Vers l'inconnu</span></div>
+      <div class="media-item reveal d1"><img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1218480/ss_dfe99253b88468ff3c054c5b031ae17af978ade3.1920x1080.jpg" alt="SkyPrimal screenshot" loading="lazy"><span class="lang-en">The hunt</span><span class="lang-ru">Охота</span><span class="lang-uk">Полювання</span><span class="lang-fr">La chasse</span></div>
+      <div class="media-item wide reveal d2"><img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1218480/ss_22663986498f90690f308bf74c75b8462e8b802f.1920x1080.jpg" alt="SkyPrimal screenshot" loading="lazy"><span class="lang-en">Home before dark</span><span class="lang-ru">Домой до темноты</span><span class="lang-uk">Додому до темряви</span><span class="lang-fr">Rentrer avant la nuit</span></div>
+      <div class="media-item reveal d1" style="grid-column:1/-1"><img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1218480/ss_2c2020591a34735f74d0fbc5500e670e6ce17862.1920x1080.jpg" alt="SkyPrimal screenshot" loading="lazy" style="aspect-ratio:21/8"><span class="lang-en">New lands ahead</span><span class="lang-ru">Впереди новые земли</span><span class="lang-uk">Попереду нові землі</span><span class="lang-fr">De nouvelles terres en vue</span></div>
     </div>
   </div>
 </section>
@@ -566,7 +621,9 @@ footer{border-top:1px solid var(--line);padding:64px 0 40px;background:#04060c}
     <div class="sec-head reveal">
       <span class="kicker lang-en">Roadmap</span>
       <span class="kicker lang-ru">Роадмап</span>
-      <h2><span class="lang-en">The journey ahead</span><span class="lang-ru">Путь впереди</span></h2>
+      <span class="kicker lang-uk">Роадмап</span>
+      <span class="kicker lang-fr">Roadmap</span>
+      <h2><span class="lang-en">The journey ahead</span><span class="lang-ru">Путь впереди</span><span class="lang-uk">Шлях попереду</span><span class="lang-fr">La route à venir</span></h2>
     </div>
     <div class="road-grid">
       <div class="road-card active reveal d1">
@@ -574,11 +631,15 @@ footer{border-top:1px solid var(--line);padding:64px 0 40px;background:#04060c}
         <div class="road-body">
           <span class="road-badge lang-en">WE ARE HERE</span>
           <span class="road-badge lang-ru">МЫ ЗДЕСЬ</span>
+          <span class="road-badge lang-uk">МИ ТУТ</span>
+          <span class="road-badge lang-fr">NOUS SOMMES ICI</span>
           <span class="road-phase lang-en">PHASE 1 · EARLY ACCESS</span>
           <span class="road-phase lang-ru">ФАЗА 1 · РАННИЙ ДОСТУП</span>
-          <h3><span class="lang-en">Survival core</span><span class="lang-ru">Ядро выживания</span></h3>
-          <span class="road-date lang-en">NOW</span><span class="road-date lang-ru">СЕЙЧАС</span>
-          <p><span class="lang-en">Shelter building, crafting, hunting, fishing, farming, cooking, five biomes.</span><span class="lang-ru">Строительство укрытий, крафт, охота, рыбалка, земледелие, готовка, пять биомов.</span></p>
+          <span class="road-phase lang-uk">ФАЗА 1 · РАННІЙ ДОСТУП</span>
+          <span class="road-phase lang-fr">PHASE 1 · ACCÈS ANTICIPÉ</span>
+          <h3><span class="lang-en">Survival core</span><span class="lang-ru">Ядро выживания</span><span class="lang-uk">Ядро виживання</span><span class="lang-fr">Le cœur de la survie</span></h3>
+          <span class="road-date lang-en">NOW</span><span class="road-date lang-ru">СЕЙЧАС</span><span class="road-date lang-uk">ЗАРАЗ</span><span class="road-date lang-fr">MAINTENANT</span>
+          <p><span class="lang-en">Shelter building, crafting, hunting, fishing, farming, cooking, five biomes.</span><span class="lang-ru">Строительство укрытий, крафт, охота, рыбалка, земледелие, готовка, пять биомов.</span><span class="lang-uk">Будівництво укриттів, крафт, полювання, риболовля, землеробство, готування, п'ять біомів.</span><span class="lang-fr">Construction d'abris, artisanat, chasse, pêche, agriculture, cuisine, cinq biomes.</span></p>
         </div>
       </div>
       <div class="road-card reveal d2">
@@ -586,9 +647,11 @@ footer{border-top:1px solid var(--line);padding:64px 0 40px;background:#04060c}
         <div class="road-body">
           <span class="road-phase lang-en">PHASE 2</span>
           <span class="road-phase lang-ru">ФАЗА 2</span>
-          <h3><span class="lang-en">Tribes &amp; Co-op</span><span class="lang-ru">Племена и кооператив</span></h3>
-          <span class="road-date lang-en">NEXT</span><span class="road-date lang-ru">ДАЛЕЕ</span>
-          <p><span class="lang-en">Found your own tribe, co-op settlements, taming wild animals, husbandry.</span><span class="lang-ru">Создание своего племени, совместные поселения, приручение зверей, скотоводство.</span></p>
+          <span class="road-phase lang-uk">ФАЗА 2</span>
+          <span class="road-phase lang-fr">PHASE 2</span>
+          <h3><span class="lang-en">Tribes &amp; Co-op</span><span class="lang-ru">Племена и кооператив</span><span class="lang-uk">Племена і кооператив</span><span class="lang-fr">Tribus et coop</span></h3>
+          <span class="road-date lang-en">NEXT</span><span class="road-date lang-ru">ДАЛЕЕ</span><span class="road-date lang-uk">ДАЛІ</span><span class="road-date lang-fr">ENSUITE</span>
+          <p><span class="lang-en">Found your own tribe, co-op settlements, taming wild animals, husbandry.</span><span class="lang-ru">Создание своего племени, совместные поселения, приручение зверей, скотоводство.</span><span class="lang-uk">Створення власного племені, спільні поселення, приручення звірів, скотарство.</span><span class="lang-fr">Fonder sa propre tribu, colonies en coop, apprivoisement des animaux, élevage.</span></p>
         </div>
       </div>
       <div class="road-card reveal d3">
@@ -596,9 +659,11 @@ footer{border-top:1px solid var(--line);padding:64px 0 40px;background:#04060c}
         <div class="road-body">
           <span class="road-phase lang-en">PHASE 3</span>
           <span class="road-phase lang-ru">ФАЗА 3</span>
-          <h3><span class="lang-en">War &amp; Prisoners</span><span class="lang-ru">Война и пленные</span></h3>
-          <span class="road-date lang-en">IN DEVELOPMENT</span><span class="road-date lang-ru">В РАЗРАБОТКЕ</span>
-          <p><span class="lang-en">Tribal warfare, raids, capturing and recruiting NPCs from rival tribes.</span><span class="lang-ru">Войны племён, набеги, захват в плен и вербовка НПС из чужих племён.</span></p>
+          <span class="road-phase lang-uk">ФАЗА 3</span>
+          <span class="road-phase lang-fr">PHASE 3</span>
+          <h3><span class="lang-en">War &amp; Prisoners</span><span class="lang-ru">Война и пленные</span><span class="lang-uk">Війна і полонені</span><span class="lang-fr">Guerre et prisonniers</span></h3>
+          <span class="road-date lang-en">IN DEVELOPMENT</span><span class="road-date lang-ru">В РАЗРАБОТКЕ</span><span class="road-date lang-uk">В РОЗРОБЦІ</span><span class="road-date lang-fr">EN DÉVELOPPEMENT</span>
+          <p><span class="lang-en">Tribal warfare, raids, capturing and recruiting NPCs from rival tribes.</span><span class="lang-ru">Войны племён, набеги, захват в плен и вербовка НПС из чужих племён.</span><span class="lang-uk">Війни племен, набіги, захоплення в полон і вербування НПС з чужих племен.</span><span class="lang-fr">Guerres tribales, raids, capture et recrutement de PNJ des tribus rivales.</span></p>
         </div>
       </div>
       <div class="road-card reveal d3">
@@ -606,9 +671,11 @@ footer{border-top:1px solid var(--line);padding:64px 0 40px;background:#04060c}
         <div class="road-body">
           <span class="road-phase lang-en">PHASE 4 · RELEASE 1.0</span>
           <span class="road-phase lang-ru">ФАЗА 4 · РЕЛИЗ 1.0</span>
-          <h3><span class="lang-en">Living world</span><span class="lang-ru">Живой мир</span></h3>
-          <span class="road-date lang-en">FUTURE</span><span class="road-date lang-ru">ПОЗЖЕ</span>
-          <p><span class="lang-en">Advanced weather and seasons, barter economy between tribes, full release.</span><span class="lang-ru">Продвинутая погода и сезоны, экономика обмена между племенами, полный релиз.</span></p>
+          <span class="road-phase lang-uk">ФАЗА 4 · РЕЛІЗ 1.0</span>
+          <span class="road-phase lang-fr">PHASE 4 · VERSION 1.0</span>
+          <h3><span class="lang-en">Living world</span><span class="lang-ru">Живой мир</span><span class="lang-uk">Живий світ</span><span class="lang-fr">Un monde vivant</span></h3>
+          <span class="road-date lang-en">FUTURE</span><span class="road-date lang-ru">ПОЗЖЕ</span><span class="road-date lang-uk">ПІЗНІШЕ</span><span class="road-date lang-fr">PLUS TARD</span>
+          <p><span class="lang-en">Advanced weather and seasons, barter economy between tribes, full release.</span><span class="lang-ru">Продвинутая погода и сезоны, экономика обмена между племенами, полный релиз.</span><span class="lang-uk">Просунута погода й сезони, економіка обміну між племенами, повний реліз.</span><span class="lang-fr">Météo avancée et saisons, économie de troc entre tribus, sortie complète.</span></p>
         </div>
       </div>
     </div>
@@ -620,23 +687,29 @@ footer{border-top:1px solid var(--line);padding:64px 0 40px;background:#04060c}
   <div class="wrap nl-inner reveal">
     <span class="kicker lang-en">Join the tribe</span>
     <span class="kicker lang-ru">Вступай в племя</span>
-    <h2><span class="lang-en">Don't survive alone</span><span class="lang-ru">Не выживай в одиночку</span></h2>
+    <span class="kicker lang-uk">Вступай до племені</span>
+    <span class="kicker lang-fr">Rejoins la tribu</span>
+    <h2><span class="lang-en">Don't survive alone</span><span class="lang-ru">Не выживай в одиночку</span><span class="lang-uk">Не виживай наодинці</span><span class="lang-fr">Ne survis pas seul</span></h2>
     <p style="color:var(--muted);margin-top:16px">
       <span class="lang-en">Get update news, dev diaries and playtest invites. No spam — only smoke signals.</span>
       <span class="lang-ru">Получай новости обновлений, дневники разработки и приглашения на плейтесты. Без спама — только дымовые сигналы.</span>
+      <span class="lang-uk">Отримуй новини оновлень, щоденники розробки та запрошення на плейтести. Без спаму — лише димові сигнали.</span>
+      <span class="lang-fr">Reçois les nouvelles des mises à jour, les journaux de dev et les invitations aux playtests. Pas de spam — que des signaux de fumée.</span>
     </p>
     <form class="nl-form" id="nlForm">
       <input type="email" required id="nlEmail" placeholder="you@example.com" aria-label="Email">
-      <button class="btn btn-teal" type="submit"><span class="lang-en">Subscribe</span><span class="lang-ru">Подписаться</span></button>
+      <button class="btn btn-teal" type="submit"><span class="lang-en">Subscribe</span><span class="lang-ru">Подписаться</span><span class="lang-uk">Підписатися</span><span class="lang-fr">S'abonner</span></button>
     </form>
     <div class="nl-ok" id="nlOk">
       <span class="lang-en">✓ Welcome to the tribe, survivor!</span>
       <span class="lang-ru">✓ Добро пожаловать в племя, выживший!</span>
+      <span class="lang-uk">✓ Ласкаво просимо до племені, вцілілий!</span>
+      <span class="lang-fr">✓ Bienvenue dans la tribu, survivant !</span>
     </div>
     <div style="margin-top:28px">
       <a class="btn btn-ghost" href="https://discord.gg/HghyTNdt4V" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.3 4.4A19.8 19.8 0 0 0 15.9 3l-.2.4c1.6.4 3 1.1 4.3 2a16.2 16.2 0 0 0-14 0c1.3-.9 2.7-1.6 4.3-2L10 3a19.8 19.8 0 0 0-4.4 1.4C2.8 8.6 2 12.7 2.4 16.7a19.9 19.9 0 0 0 6 3l.5-.8a13 13 0 0 1-2.1-1l.5-.4a14.3 14.3 0 0 0 12.2 0l.5.4c-.7.4-1.4.8-2.1 1l.5.8a19.8 19.8 0 0 0 6-3c.5-4.6-.7-8.6-3.1-12.3zM9.7 14.2c-1 0-1.8-.9-1.8-2s.8-2 1.8-2 1.8.9 1.8 2-.8 2-1.8 2zm6.6 0c-1 0-1.8-.9-1.8-2s.8-2 1.8-2 1.8.9 1.8 2-.8 2-1.8 2z"/></svg>
-        <span class="lang-en">Join our Discord</span><span class="lang-ru">Наш Discord</span>
+        <span class="lang-en">Join our Discord</span><span class="lang-ru">Наш Discord</span><span class="lang-uk">Наш Discord</span><span class="lang-fr">Notre Discord</span>
       </a>
     </div>
   </div>
@@ -654,7 +727,7 @@ footer{border-top:1px solid var(--line);padding:64px 0 40px;background:#04060c}
           </svg>
           SKY<b>PRIMAL</b>
         </a>
-        <p><span class="lang-en">A prehistoric survival game by Primal Apps Studio: build a settlement, found a tribe and fight for supremacy. In Early Access on Steam.</span><span class="lang-ru">Первобытное выживание от Primal Apps Studio: строй поселение, создавай племя и сражайся за господство. В раннем доступе Steam.</span></p>
+        <p><span class="lang-en">A prehistoric survival game by Primal Apps Studio: build a settlement, found a tribe and fight for supremacy. In Early Access on Steam.</span><span class="lang-ru">Первобытное выживание от Primal Apps Studio: строй поселение, создавай племя и сражайся за господство. В раннем доступе Steam.</span><span class="lang-uk">Первісне виживання від Primal Apps Studio: будуй поселення, створюй плем'я і бийся за панування. У ранньому доступі Steam.</span><span class="lang-fr">Un jeu de survie préhistorique par Primal Apps Studio : bâtis une colonie, fonde une tribu et bats-toi pour la suprématie. En accès anticipé sur Steam.</span></p>
         <div class="socials">
           <a href="https://discord.gg/HghyTNdt4V" target="_blank" rel="noopener" aria-label="Discord"><svg viewBox="0 0 24 24"><path d="M20.3 4.4A19.8 19.8 0 0 0 15.9 3l-.2.4c1.6.4 3 1.1 4.3 2a16.2 16.2 0 0 0-14 0c1.3-.9 2.7-1.6 4.3-2L10 3a19.8 19.8 0 0 0-4.4 1.4C2.8 8.6 2 12.7 2.4 16.7a19.9 19.9 0 0 0 6 3l.5-.8a13 13 0 0 1-2.1-1l.5-.4a14.3 14.3 0 0 0 12.2 0l.5.4c-.7.4-1.4.8-2.1 1l.5.8a19.8 19.8 0 0 0 6-3c.5-4.6-.7-8.6-3.1-12.3zM9.7 14.2c-1 0-1.8-.9-1.8-2s.8-2 1.8-2 1.8.9 1.8 2-.8 2-1.8 2zm6.6 0c-1 0-1.8-.9-1.8-2s.8-2 1.8-2 1.8.9 1.8 2-.8 2-1.8 2z"/></svg></a>
           <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24"><path d="M23 7.5s-.2-1.6-.9-2.3c-.9-.9-1.9-.9-2.4-1C16.6 4 12 4 12 4s-4.6 0-7.7.2c-.5.1-1.5.1-2.4 1-.7.7-.9 2.3-.9 2.3S1 9.4 1 11.3v1.4c0 1.9.2 3.8.2 3.8s.2 1.6.9 2.3c.9.9 2 .9 2.5 1 1.9.2 7.4.2 7.4.2s4.6 0 7.7-.2c.5-.1 1.5-.1 2.4-1 .7-.7.9-2.3.9-2.3s.2-1.9.2-3.8v-1.4c0-1.9-.2-3.8-.2-3.8zM9.8 15V8.6l6.1 3.2L9.8 15z"/></svg></a>
@@ -663,31 +736,31 @@ footer{border-top:1px solid var(--line);padding:64px 0 40px;background:#04060c}
         </div>
       </div>
       <div class="foot-col">
-        <h4><span class="lang-en">GAME</span><span class="lang-ru">ИГРА</span></h4>
-        <a href="#about"><span class="lang-en">About</span><span class="lang-ru">Об игре</span></a>
-        <a href="#features"><span class="lang-en">Features</span><span class="lang-ru">Особенности</span></a>
-        <a href="#roadmap"><span class="lang-en">Roadmap</span><span class="lang-ru">Роадмап</span></a>
-        <a href="#media"><span class="lang-en">Media</span><span class="lang-ru">Медиа</span></a>
+        <h4><span class="lang-en">GAME</span><span class="lang-ru">ИГРА</span><span class="lang-uk">ГРА</span><span class="lang-fr">JEU</span></h4>
+        <a href="#about"><span class="lang-en">About</span><span class="lang-ru">Об игре</span><span class="lang-uk">Про гру</span><span class="lang-fr">À propos</span></a>
+        <a href="#features"><span class="lang-en">Features</span><span class="lang-ru">Особенности</span><span class="lang-uk">Особливості</span><span class="lang-fr">Caractéristiques</span></a>
+        <a href="#roadmap"><span class="lang-en">Roadmap</span><span class="lang-ru">Роадмап</span><span class="lang-uk">Роадмап</span><span class="lang-fr">Roadmap</span></a>
+        <a href="#media"><span class="lang-en">Media</span><span class="lang-ru">Медиа</span><span class="lang-uk">Медіа</span><span class="lang-fr">Médias</span></a>
       </div>
       <div class="foot-col">
-        <h4><span class="lang-en">COMMUNITY</span><span class="lang-ru">СООБЩЕСТВО</span></h4>
+        <h4><span class="lang-en">COMMUNITY</span><span class="lang-ru">СООБЩЕСТВО</span><span class="lang-uk">СПІЛЬНОТА</span><span class="lang-fr">COMMUNAUTÉ</span></h4>
         <a href="https://discord.gg/HghyTNdt4V" target="_blank" rel="noopener">Discord</a>
         <a href="https://store.steampowered.com/app/1218480" target="_blank" rel="noopener">Steam</a>
-        <a href="#news"><span class="lang-en">News</span><span class="lang-ru">Новости</span></a>
+        <a href="#news"><span class="lang-en">News</span><span class="lang-ru">Новости</span><span class="lang-uk">Новини</span><span class="lang-fr">Actualités</span></a>
       </div>
       <div class="foot-col">
-        <h4><span class="lang-en">SUPPORT</span><span class="lang-ru">ПОДДЕРЖКА</span></h4>
-        <a href="#"><span class="lang-en">FAQ</span><span class="lang-ru">Вопросы и ответы</span></a>
-        <a href="#"><span class="lang-en">Contact</span><span class="lang-ru">Контакты</span></a>
-        <a href="#"><span class="lang-en">Press kit</span><span class="lang-ru">Пресс-кит</span></a>
+        <h4><span class="lang-en">SUPPORT</span><span class="lang-ru">ПОДДЕРЖКА</span><span class="lang-uk">ПІДТРИМКА</span><span class="lang-fr">SUPPORT</span></h4>
+        <a href="#"><span class="lang-en">FAQ</span><span class="lang-ru">Вопросы и ответы</span><span class="lang-uk">Питання та відповіді</span><span class="lang-fr">FAQ</span></a>
+        <a href="#"><span class="lang-en">Contact</span><span class="lang-ru">Контакты</span><span class="lang-uk">Контакти</span><span class="lang-fr">Contact</span></a>
+        <a href="#"><span class="lang-en">Press kit</span><span class="lang-ru">Пресс-кит</span><span class="lang-uk">Прес-кіт</span><span class="lang-fr">Kit presse</span></a>
       </div>
     </div>
     <div class="foot-bottom">
-      <span>© 2026 Primal Apps Studio. <span class="lang-en">All rights reserved.</span><span class="lang-ru">Все права защищены.</span></span>
+      <span>© 2026 Primal Apps Studio. <span class="lang-en">All rights reserved.</span><span class="lang-ru">Все права защищены.</span><span class="lang-uk">Всі права захищено.</span><span class="lang-fr">Tous droits réservés.</span></span>
       <span>
-        <a href="#"><span class="lang-en">Privacy Policy</span><span class="lang-ru">Политика конфиденциальности</span></a>
+        <a href="#"><span class="lang-en">Privacy Policy</span><span class="lang-ru">Политика конфиденциальности</span><span class="lang-uk">Політика конфіденційності</span><span class="lang-fr">Politique de confidentialité</span></a>
         &nbsp;·&nbsp;
-        <a href="#"><span class="lang-en">Terms of Use</span><span class="lang-ru">Условия использования</span></a>
+        <a href="#"><span class="lang-en">Terms of Use</span><span class="lang-ru">Условия использования</span><span class="lang-uk">Умови використання</span><span class="lang-fr">Conditions d'utilisation</span></a>
       </span>
     </div>
   </div>
@@ -762,15 +835,29 @@ const burger=document.getElementById('burger'),links=document.getElementById('na
 burger.addEventListener('click',()=>links.classList.toggle('open'));
 links.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>links.classList.remove('open')));
 /* ======== language ======== */
-const langBtn=document.getElementById('langBtn');
-let ru=false;
+const langBtn=document.getElementById('langBtn'),langMenu=document.getElementById('langMenu');
+const LANGS=['en','ru','uk','fr'];
+let lang='en';
 function applyLang(){
-  document.body.classList.toggle('ru',ru);
-  langBtn.textContent=ru?'EN':'RU';
-  document.documentElement.lang=ru?'ru':'en';
+  document.body.classList.remove('ru','uk','fr');
+  if(lang!=='en')document.body.classList.add(lang);
+  document.documentElement.lang=lang;
+  langBtn.textContent=lang.toUpperCase()+' ▾';
+  langMenu.querySelectorAll('button').forEach(b=>b.classList.toggle('active',b.dataset.lang===lang));
+  try{localStorage.setItem('sp-lang',lang)}catch(e){}
 }
-langBtn.addEventListener('click',()=>{ru=!ru;applyLang()});
-if((navigator.language||'').toLowerCase().startsWith('ru')){ru=true;applyLang()}
+langBtn.addEventListener('click',e=>{e.stopPropagation();langMenu.classList.toggle('open')});
+document.addEventListener('click',()=>langMenu.classList.remove('open'));
+langMenu.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{lang=b.dataset.lang;applyLang()}));
+let saved=null;try{saved=localStorage.getItem('sp-lang')}catch(e){}
+if(saved&&LANGS.includes(saved)){lang=saved}
+else{
+  const nl=(navigator.language||'').toLowerCase();
+  if(nl.startsWith('ru'))lang='ru';
+  else if(nl.startsWith('uk'))lang='uk';
+  else if(nl.startsWith('fr'))lang='fr';
+}
+applyLang();
 /* ======== reveal on scroll ======== */
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target)}}),{threshold:.12});
 document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
