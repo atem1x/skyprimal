@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SkyPrimal — Survive. Unite. Conquer.</title>
+<meta name="description" content="SkyPrimal is a prehistoric survival game. Having lost your tribe, you are the sole survivor in an era of deadly danger: build a settlement, found a new tribe, tame wild beasts and wage war for supremacy.">
+<meta property="og:title" content="SkyPrimal — Survive. Unite. Conquer.">
+<meta property="og:image" content="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1218480/header.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#05080f;
+  --bg2:#0a1120;
+  --panel:#0d1526;
+  --panel2:#111b30;
+  --line:rgba(120,160,220,.14);
+  --text:#e8eef8;
+  --muted:#93a3bd;
+  --teal:#8fd160;
+  --teal-dim:rgba(143,209,96,.14);
+  --amber:#ffb454;
+  --amber-dim:rgba(255,180,84,.15);
+  --danger:#ff6a5e;
+  --font-d:'Chakra Petch','Segoe UI',system-ui,sans-serif;
+  --font-b:'Rajdhani','Segoe UI',system-ui,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--font-b);
+  font-size:18px;
+  line-height:1.6;
+  overflow-x:hidden;
+}
+/* ============ LANGUAGE TOGGLE ============ */
+.lang-ru{display:none}
+body.ru .lang-ru{display:revert}
+body.ru .lang-en{display:none}
+h1 .lang-ru,h2 .lang-ru,h3 .lang-ru,span.lang-ru,a .lang-ru,button .lang-ru{display:none}
+body.ru h1 .lang-ru,body.ru h2 .lang-ru,body.ru h3 .lang-ru,body.ru span.lang-ru,body.ru a .lang-ru,body.ru button .lang-ru{display:inline}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+ul{list-style:none}
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+h1,h2,h3,h4{font-family:var(--font-d);text-transform:uppercase;letter-spacing:.06em;line-height:1.15}
+.sec{padding:110px 0}
+.sec-head{margin-bottom:56px;text-align:center}
+.kicker{
+  display:inline-block;font-family:var(--font-d);font-size:13px;font-weight:600;
+  letter-spacing:.35em;text-transform:uppercase;color:var(--teal);
+  padding:6px 18px;border:1px solid rgba(143,209,96,.35);border-radius:2px;
+  background:var(--teal-dim);margin-bottom:22px;
+}
+.sec-head h2{font-size:clamp(30px,4.5vw,48px);font-weight:700}
+.sec-head p{max-width:640px;margin:18px auto 0;color:var(--muted);font-size:19px}
+/* ============ BUTTONS ============ */
+.btn{
+  display:inline-flex;align-items:center;gap:10px;
+  font-family:var(--font-d);font-weight:600;font-size:16px;
+  text-transform:uppercase;letter-spacing:.12em;
+  padding:16px 34px;border:none;cursor:pointer;position:relative;
+  clip-path:polygon(14px 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%,0 14px);
+  transition:transform .2s,filter .2s,background .2s;
+}
+.btn:hover{transform:translateY(-2px);filter:brightness(1.12)}
+.btn-primary{background:linear-gradient(135deg,#ffc06a,#ff9435);color:#221302}
+.btn-ghost{background:rgba(232,238,248,.06);color:var(--text);box-shadow:inset 0 0 0 1px rgba(232,238,248,.28)}
+.btn-teal{background:linear-gradient(135deg,#a3e06f,#5f9e34);color:#122003}
+.btn svg{width:19px;height:19px;flex:none}
+/* ============ NAV ============ */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  transition:background .3s,box-shadow .3s,backdrop-filter .3s;
+}
+.nav.scrolled{background:rgba(5,8,15,.86);backdrop-filter:blur(14px);box-shadow:0 1px 0 var(--line)}
+.nav-inner{display:flex;align-items:center;gap:34px;height:76px;max-width:1360px;margin:0 auto;padding:0 28px}
+.logo{display:flex;align-items:center;gap:12px;font-family:var(--font-d);font-weight:700;font-size:21px;letter-spacing:.14em}
+.logo svg{width:36px;height:36px}
+.logo b{color:var(--amber);font-weight:700}
+.nav-links{display:flex;gap:30px;margin-left:auto}
+.nav-links a{
+  font-family:var(--font-d);font-size:14px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--muted);transition:color .2s;position:relative;padding:6px 0;
+}
+.nav-links a:hover{color:var(--text)}
+.nav-links a::after{content:"";position:absolute;left:0;bottom:0;width:0;height:2px;background:var(--teal);transition:width .25s}
+.nav-links a:hover::after{width:100%}
+.nav-cta{margin-left:6px;padding:11px 22px;font-size:13px}
+.lang-btn{
+  font-family:var(--font-d);font-size:13px;font-weight:700;letter-spacing:.1em;
+  color:var(--text);background:rgba(232,238,248,.07);border:1px solid var(--line);
+  padding:9px 14px;cursor:pointer;border-radius:2px;transition:background .2s,border-color .2s;
+}
+.lang-btn:hover{background:rgba(232,238,248,.14);border-color:rgba(120,160,220,.4)}
+.burger{display:none;margin-left:auto;background:none;border:none;cursor:pointer;padding:8px}
+/* ============ BETA RIBBON ============ */
+.beta-ribbon{
+  position:fixed;top:30px;right:-52px;z-index:120;width:210px;
+  transform:rotate(45deg);pointer-events:none;text-align:center;
+  background:linear-gradient(135deg,#ffc06a,#ff9435);color:#221302;
+  font-family:var(--font-d);font-weight:700;font-size:14px;letter-spacing:.24em;
+  padding:9px 0;box-shadow:0 6px 22px rgba(0,0,0,.45),0 0 0 1px rgba(255,220,160,.35) inset;
+}
+.nav-inner{padding-right:118px}
+.burger span{display:block;width:26px;height:2px;background:var(--text);margin:6px 0;transition:.3s}
+/* ============ HERO ============ */
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.hero-art{position:absolute;inset:0;width:100%;height:100%}
+.hero-art img{width:100%;height:100%;object-fit:cover;display:block;animation:kenburns 26s ease-in-out infinite alternate}
+@keyframes kenburns{from{transform:scale(1)}to{transform:scale(1.09)}}
+.hero-art::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,8,15,.78) 0%,rgba(5,8,15,.38) 45%,rgba(5,8,15,.6) 100%)}
+.hero-art svg{width:100%;height:100%;display:block}
+.hero-fade{position:absolute;inset:auto 0 0 0;height:38vh;background:linear-gradient(180deg,transparent,var(--bg) 92%)}
+.hero-content{position:relative;z-index:2;text-align:center;padding:140px 24px 90px;max-width:960px}
+.hero-tag{
+  font-family:var(--font-d);font-size:clamp(13px,1.6vw,16px);font-weight:600;
+  letter-spacing:.5em;text-transform:uppercase;color:var(--teal);
+  text-shadow:0 0 24px rgba(143,209,96,.5);margin-bottom:26px;
+}
+.hero h1{
+  font-size:clamp(52px,9vw,118px);font-weight:700;letter-spacing:.04em;
+  background:linear-gradient(180deg,#ffffff 30%,#aecdf2 70%,#6f96c9);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 6px 30px rgba(20,40,80,.8));
+}
+.hero-sub{
+  margin:26px auto 44px;max-width:620px;font-size:clamp(18px,2.2vw,22px);
+  color:#cfe0f4;text-shadow:0 2px 14px rgba(0,0,0,.6);
+}
+.hero-btns{display:flex;gap:18px;justify-content:center;flex-wrap:wrap}
+.hero-scroll{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);z-index:3;color:#9fb5d4;animation:bob 2.2s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,10px)}}
+/* hero svg animations */
+.cl{animation:drift 60s linear infinite}
+.cl.c2{animation-duration:85s;animation-delay:-30s}
+.cl.c3{animation-duration:110s;animation-delay:-70s}
+@keyframes drift{from{transform:translateX(-6%)}to{transform:translateX(6%)}}
+.isle{animation:floaty 9s ease-in-out infinite}
+.isle.i2{animation-duration:12s;animation-delay:-4s}
+.isle.i3{animation-duration:10s;animation-delay:-7s}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+.bird{animation:fly 26s linear infinite}
+.bird.b2{animation-duration:34s;animation-delay:-12s}
+@keyframes fly{from{transform:translateX(-15vw)}to{transform:translateX(115vw)}}
+/* ============ UPDATE BANNER ============ */
+.banner{position:relative;z-index:3;margin-top:-64px}
+.banner-inner{
+  display:flex;align-items:center;gap:22px;flex-wrap:wrap;
+  background:linear-gradient(100deg,rgba(255,180,84,.16),rgba(255,148,53,.05) 55%),var(--panel);
+  border:1px solid rgba(255,180,84,.35);padding:24px 30px;
+  clip-path:polygon(20px 0,100% 0,100% calc(100% - 20px),calc(100% - 20px) 100%,0 100%,0 20px);
+}
+.banner-pill{
+  font-family:var(--font-d);font-size:12px;font-weight:700;letter-spacing:.2em;
+  background:var(--amber);color:#221302;padding:7px 14px;white-space:nowrap;
+  clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px);
+  animation:pulse 2.4s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(255,180,84,.5)}50%{box-shadow:0 0 24px 4px rgba(255,180,84,.25)}}
+.banner-text{font-family:var(--font-d);font-size:19px;font-weight:600;letter-spacing:.04em}
+.banner a{margin-left:auto;font-family:var(--font-d);font-size:14px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--amber);display:flex;align-items:center;gap:8px;transition:gap .2s}
+.banner a:hover{gap:13px}
+/* ============ TRAILER ============ */
+.trailer-frame{
+  position:relative;border:1px solid var(--line);cursor:pointer;overflow:hidden;
+  clip-path:polygon(26px 0,100% 0,100% calc(100% - 26px),calc(100% - 26px) 100%,0 100%,0 26px);
+  box-shadow:0 30px 80px -20px rgba(0,0,0,.8);
+}
+.trailer-frame svg,.trailer-frame>img{width:100%;height:auto;aspect-ratio:16/8;object-fit:cover;display:block;transition:transform .5s}
+.trailer-frame:hover svg,.trailer-frame:hover>img{transform:scale(1.03)}
+.play-btn{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:96px;height:96px;border-radius:50%;border:2px solid rgba(255,255,255,.85);
+  background:rgba(5,8,15,.45);backdrop-filter:blur(6px);
+  display:flex;align-items:center;justify-content:center;transition:transform .25s,background .25s;
+}
+.trailer-frame:hover .play-btn{transform:translate(-50%,-50%) scale(1.1);background:rgba(255,148,53,.85)}
+.play-btn svg{width:34px;height:34px;margin-left:6px}
+.trailer-note{text-align:center;color:var(--muted);font-size:15px;margin-top:18px;letter-spacing:.06em}
+/* ============ NEWS ============ */
+.news-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+.news-card{
+  background:var(--panel);border:1px solid var(--line);overflow:hidden;display:flex;flex-direction:column;
+  clip-path:polygon(18px 0,100% 0,100% calc(100% - 18px),calc(100% - 18px) 100%,0 100%,0 18px);
+  transition:transform .3s,border-color .3s;
+}
+.news-card:hover{transform:translateY(-6px);border-color:rgba(143,209,96,.45)}
+.news-thumb{position:relative;overflow:hidden}
+.news-thumb svg,.news-thumb img{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;display:block;transition:transform .5s}
+.news-card:hover .news-thumb svg,.news-card:hover .news-thumb img{transform:scale(1.06)}
+.news-body{padding:24px 26px 28px;display:flex;flex-direction:column;gap:10px;flex:1}
+.news-date{font-family:var(--font-d);font-size:12px;font-weight:600;letter-spacing:.2em;color:var(--teal)}
+.news-body h3{font-size:20px;font-weight:600;letter-spacing:.03em;text-transform:none}
+.news-body p{color:var(--muted);font-size:16px;flex:1}
+.news-more{font-family:var(--font-d);font-size:13px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--amber);display:flex;align-items:center;gap:7px;transition:gap .2s}
+.news-card:hover .news-more{gap:12px}
+/* ============ VISION ============ */
+.vision{position:relative;overflow:hidden}
+.vision-bg{position:absolute;inset:0;opacity:.22;pointer-events:none}
+.vision-bg svg,.vision-bg img{width:100%;height:100%;object-fit:cover}
+.vision-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,var(--bg) 0%,transparent 30%,transparent 70%,var(--bg) 100%)}
+.vision-inner{position:relative;max-width:820px;margin:0 auto;text-align:center}
+.vision-inner h2{font-size:clamp(26px,3.6vw,40px);margin-bottom:28px}
+.vision-inner p{font-size:clamp(18px,2vw,21px);color:#c4d3ea;margin-bottom:20px}
+.vision-inner .accent{color:var(--amber);font-weight:600}
+.vision-inner .accent2{color:var(--teal);font-weight:600}
+/* ============ FEATURES ============ */
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+.feat-card{
+  background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);
+  padding:36px 30px;position:relative;overflow:hidden;
+  clip-path:polygon(18px 0,100% 0,100% calc(100% - 18px),calc(100% - 18px) 100%,0 100%,0 18px);
+  transition:transform .3s,border-color .3s;
+}
+.feat-card::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--teal),transparent 70%);opacity:0;transition:opacity .3s;
+}
+.feat-card:hover{transform:translateY(-6px);border-color:rgba(143,209,96,.4)}
+.feat-card:hover::before{opacity:1}
+.feat-icon{
+  width:60px;height:60px;display:flex;align-items:center;justify-content:center;margin-bottom:22px;
+  background:var(--teal-dim);border:1px solid rgba(143,209,96,.35);
+  clip-path:polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px);
+}
+.feat-icon svg{width:30px;height:30px;stroke:var(--teal);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.feat-card h3{font-size:19px;font-weight:600;margin-bottom:12px}
+.feat-card p{color:var(--muted);font-size:16px}
+/* ============ MEDIA ============ */
+.media-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.media-item{
+  position:relative;overflow:hidden;border:1px solid var(--line);cursor:pointer;
+  clip-path:polygon(14px 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%,0 14px);
+}
+.media-item svg,.media-item img{width:100%;height:100%;aspect-ratio:16/9;object-fit:cover;display:block;transition:transform .5s}
+.media-item:hover svg,.media-item:hover img{transform:scale(1.07)}
+.media-item::after{
+  content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(5,8,15,.75));
+  opacity:0;transition:opacity .3s;
+}
+.media-item:hover::after{opacity:1}
+.media-item span{
+  position:absolute;bottom:14px;left:18px;z-index:2;font-family:var(--font-d);
+  font-size:13px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+  opacity:0;transform:translateY(8px);transition:.3s;
+}
+.media-item:hover span{opacity:1;transform:translateY(0)}
+.media-item.wide{grid-column:span 2}
+/* ============ ROADMAP ============ */
+.road-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;position:relative}
+.road-card{
+  background:var(--panel);border:1px solid var(--line);overflow:hidden;display:flex;flex-direction:column;
+  clip-path:polygon(16px 0,100% 0,100% calc(100% - 16px),calc(100% - 16px) 100%,0 100%,0 16px);
+  transition:transform .3s,border-color .3s;
+}
+.road-card:hover{transform:translateY(-6px)}
+.road-card.active{border-color:rgba(255,180,84,.55);box-shadow:0 0 40px -8px rgba(255,180,84,.25)}
+.road-thumb svg,.road-thumb img{width:100%;height:auto;aspect-ratio:16/8;object-fit:cover;display:block}
+.road-body{padding:22px 22px 26px;flex:1;display:flex;flex-direction:column;gap:8px}
+.road-phase{font-family:var(--font-d);font-size:12px;font-weight:700;letter-spacing:.24em;color:var(--teal)}
+.road-card.active .road-phase{color:var(--amber)}
+.road-body h3{font-size:18px;font-weight:600}
+.road-date{font-family:var(--font-d);font-size:13px;color:var(--muted);letter-spacing:.1em}
+.road-body p{color:var(--muted);font-size:15px}
+.road-badge{
+  align-self:flex-start;font-family:var(--font-d);font-size:11px;font-weight:700;letter-spacing:.16em;
+  padding:5px 10px;background:var(--amber-dim);color:var(--amber);border:1px solid rgba(255,180,84,.4);margin-bottom:4px;
+}
+/* ============ NEWSLETTER ============ */
+.newsletter{position:relative;overflow:hidden;background:linear-gradient(180deg,var(--bg2),var(--bg))}
+.nl-inner{max-width:680px;margin:0 auto;text-align:center;position:relative;z-index:2}
+.nl-form{display:flex;gap:14px;margin-top:36px;flex-wrap:wrap;justify-content:center}
+.nl-form input{
+  flex:1;min-width:260px;background:rgba(232,238,248,.06);border:1px solid var(--line);
+  color:var(--text);font-family:var(--font-b);font-size:17px;padding:16px 22px;outline:none;
+  clip-path:polygon(12px 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%,0 12px);
+  transition:border-color .2s,background .2s;
+}
+.nl-form input:focus{border-color:var(--teal);background:rgba(143,209,96,.06)}
+.nl-ok{display:none;margin-top:22px;color:var(--teal);font-family:var(--font-d);font-weight:600;letter-spacing:.08em}
+/* ============ FOOTER ============ */
+footer{border-top:1px solid var(--line);padding:64px 0 40px;background:#04060c}
+.foot-grid{display:flex;gap:60px;flex-wrap:wrap;justify-content:space-between;margin-bottom:48px}
+.foot-brand{max-width:320px}
+.foot-brand .logo{margin-bottom:16px}
+.foot-brand p{color:var(--muted);font-size:15px}
+.foot-col h4{font-size:14px;letter-spacing:.2em;color:var(--muted);margin-bottom:18px}
+.foot-col a{display:block;color:#c2d0e6;font-size:16px;padding:5px 0;transition:color .2s}
+.foot-col a:hover{color:var(--teal)}
+.socials{display:flex;gap:14px;margin-top:20px}
+.socials a{
+  width:42px;height:42px;display:flex;align-items:center;justify-content:center;
+  background:rgba(232,238,248,.06);border:1px solid var(--line);border-radius:2px;transition:.2s;
+}
+.socials a:hover{background:var(--teal-dim);border-color:rgba(143,209,96,.5);transform:translateY(-3px)}
+.socials svg{width:19px;height:19px;fill:#c2d0e6}
+.foot-bottom{border-top:1px solid var(--line);padding-top:28px;display:flex;gap:20px;flex-wrap:wrap;justify-content:space-between;color:#6d7f9c;font-size:14px}
+.foot-bottom a{color:#8fa2c0}
+.foot-bottom a:hover{color:var(--teal)}
+/* ============ REVEAL ============ */
+.reveal{opacity:0;transform:translateY(34px);transition:opacity .8s ease,transform .8s ease}
+.reveal.on{opacity:1;transform:none}
+.reveal.d1{transition-delay:.1s}.reveal.d2{transition-delay:.2s}.reveal.d3{transition-delay:.3s}
+/* ============ RESPONSIVE ============ */
+@media(max-width:1000px){
+  .news-grid,.feat-grid{grid-template-columns:repeat(2,1fr)}
+  .road-grid{grid-template-columns:repeat(2,1fr)}
+  .media-grid{grid-template-columns:repeat(2,1fr)}
+  .media-item.wide{grid-column:span 2}
+  .nav-links{display:none;position:fixed;top:76px;left:0;right:0;flex-direction:column;gap:0;
+    background:rgba(5,8,15,.97);backdrop-filter:blur(14px);padding:10px 28px 24px;border-bottom:1px solid var(--line)}
+  .nav-links.open{display:flex}
+  .nav-links a{padding:14px 0;font-size:16px;border-bottom:1px solid rgba(120,160,220,.08)}
+  .burger{display:block}
+  .nav-cta{display:none}
+  .beta-ribbon{width:160px;font-size:11px;top:22px;right:-44px;padding:7px 0}
+  .nav-inner{padding-right:92px;gap:18px}
+}
+@media(max-width:620px){
+  .nav-inner{padding:0 84px 0 18px;gap:12px}
+  .logo{font-size:16px}
+  .logo svg{width:28px;height:28px}
+  .lang-btn{padding:8px 11px;font-size:12px}
+}
+@media(max-width:620px){
+  .news-grid,.feat-grid,.road-grid,.media-grid{grid-template-columns:1fr}
+  .media-item.wide{grid-column:span 1}
+  .sec{padding:80px 0}
+  .banner-inner{padding:20px}
+  .banner a{margin-left:0}
+}
+</style>
+</head>
+<body>
+
+<div class="beta-ribbon"><span class="lang-en">BETA</span><span class="lang-ru">БЕТА</span></div>
+
+<!-- ================= NAV ================= -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a class="logo" href="#top" aria-label="SkyPrimal home">
+      <svg viewBox="0 0 40 40" aria-hidden="true">
+        <defs><linearGradient id="lg1" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#a3e06f"/><stop offset="1" stop-color="#ffb454"/>
+        </linearGradient></defs>
+        <path d="M20 3 L34 15 L28 15 L28 24 L12 24 L12 15 L6 15 Z" fill="url(#lg1)"/>
+        <path d="M13 27 L27 27 L23 33 L20 30 L17 34 Z" fill="#a3e06f" opacity=".7"/>
+      </svg>
+      SKY<b>PRIMAL</b>
+    </a>
+    <div class="nav-links" id="navLinks">
+      <a href="#news"><span class="lang-en">News</span><span class="lang-ru">Новости</span></a>
+      <a href="#about"><span class="lang-en">About</span><span class="lang-ru">Об игре</span></a>
+      <a href="#features"><span class="lang-en">Features</span><span class="lang-ru">Особенности</span></a>
+      <a href="#media"><span class="lang-en">Media</span><span class="lang-ru">Медиа</span></a>
+      <a href="#roadmap"><span class="lang-en">Roadmap</span><span class="lang-ru">Роадмап</span></a>
+    </div>
+    <button class="lang-btn" id="langBtn" aria-label="Switch language">RU</button>
+    <a class="btn btn-primary nav-cta" href="https://store.steampowered.com/app/1218480" target="_blank" rel="noopener">
+      <span class="lang-en">Play&nbsp;Now</span><span class="lang-ru">Играть</span>
+    </a>
+    <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<!-- ================= HERO ================= -->
+<header class="hero" id="top">
+  <div class="hero-art" aria-hidden="true">
+    <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1218480/ss_49329c362419118187814fe619d605c0f27b01f1.1920x1080.jpg" alt="">
+  </div>
+  <div class="hero-fade"></div>
+  <div class="hero-content">
+    <div class="hero-tag lang-en">Survive &nbsp;·&nbsp; Unite &nbsp;·&nbsp; Conquer</div>
+    <div class="hero-tag lang-ru">Выживай &nbsp;·&nbsp; Объединяй &nbsp;·&nbsp; Покоряй</div>
+    <h1>SKYPRIMAL</h1>
+    <p class="hero-sub lang-en">Having lost your tribe, you are the sole survivor in an era of deadly danger. Build a shelter, forge weapons, found a new tribe — and lead it to supremacy.</p>
+    <p class="hero-sub lang-ru">Потеряв своё племя, ты — единственный выживший в эпохе смертельных опасностей. Построй укрытие, создай оружие, основай новое племя — и приведи его к величию.</p>
+    <div class="hero-btns">
+      <a class="btn btn-primary" href="https://store.steampowered.com/app/1218480" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-10 9.3l5.4 2.2a2.8 2.8 0 0 1 1.6-.5h.2l2.4-3.5v-.1a3.8 3.8 0 1 1 3.8 3.8h-.1L11.9 16v.2a2.8 2.8 0 0 1-5.6.3l-3.9-1.6A10 10 0 1 0 12 2zm-5.7 13.9 1.3.5a2.1 2.1 0 1 0 1.1-2.7l1.3.5a1.6 1.6 0 0 1-3.7 1.7zm11.5-8.6a2.5 2.5 0 1 0-5 0 2.5 2.5 0 0 0 5 0zm-4.4 0a1.9 1.9 0 1 1 3.8 0 1.9 1.9 0 0 1-3.8 0z"/></svg>
+        <span class="lang-en">Play now on Steam</span><span class="lang-ru">Играть в Steam</span>
+      </a>
+      <a class="btn btn-ghost" href="#trailer">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        <span class="lang-en">Watch Trailer</span><span class="lang-ru">Смотреть трейлер</span>
+      </a>
+    </div>
+  </div>
+  <div class="hero-scroll" aria-hidden="true">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+  </div>
+</header>
+
+<!-- ================= UPDATE BANNER ================= -->
+<div class="banner wrap reveal">
+  <div class="banner-inner">
+    <span class="banner-pill lang-en">EARLY ACCESS</span>
+    <span class="banner-pill lang-ru">РАННИЙ ДОСТУП</span>
+    <span class="banner-text lang-en">SkyPrimal is live on Steam Early Access — join the tribe for $6.99</span>
+    <span class="banner-text lang-ru">SkyPrimal уже в раннем доступе Steam — присоединяйся к племени</span>
+    <a href="https://store.steampowered.com/app/1218480" target="_blank" rel="noopener"><span class="lang-en">Open Steam</span><span class="lang-ru">Открыть Steam</span> →</a>
+  </div>
+</div>
+
+<!-- ================= TRAILER ================= -->
+<section class="sec" id="trailer">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="kicker lang-en">Official Trailer</span>
+      <span class="kicker lang-ru">Официальный трейлер</span>
+      <h2><span class="lang-en">See the primal world come alive</span><span class="lang-ru">Первобытный мир оживает</span></h2>
+    </div>
+    <a class="trailer-frame reveal" href="https://store.steampowered.com/app/1218480" target="_blank" rel="noopener" aria-label="Watch trailer on Steam" style="display:block">
+      <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1218480/ss_c1b40e06d207794de061a34d4bf8aab0864dd8bd.1920x1080.jpg" alt="SkyPrimal gameplay" loading="lazy">
+      <div class="play-btn"><svg viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg></div>
+    </a>
+    <p class="trailer-note lang-en">The full trailer is on our Steam page — click to watch.</p>
+    <p class="trailer-note lang-ru">Полный трейлер — на нашей странице в Steam, кликни, чтобы посмотреть.</p>
+  </div>
+</section>
+
+<!-- ================= NEWS ================= -->
+<section class="sec" id="news" style="padding-top:40px">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="kicker lang-en">Latest News</span>
+      <span class="kicker lang-ru">Последние новости</span>
+      <h2><span class="lang-en">From the tribe fire</span><span class="lang-ru">Новости у костра</span></h2>
+    </div>
+    <div class="news-grid">
+      <article class="news-card reveal d1">
+        <div class="news-thumb"><img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1218480/ss_dfe99253b88468ff3c054c5b031ae17af978ade3.1920x1080.jpg" alt="" loading="lazy"></div>
+        <div class="news-body">
+          <span class="news-date lang-en">IN DEVELOPMENT</span>
+          <span class="news-date lang-ru">В РАЗРАБОТКЕ</span>
+          <h3><span class="lang-en">Tribes &amp; settlements are coming</span><span class="lang-ru">Племена и поселения уже близко</span></h3>
+          <p><span class="lang-en">Found your own tribe, grow a camp into a settlement and defend it against rival clans.</span><span class="lang-ru">Основывай собственное племя, превращай лагерь в поселение и защищай его от враждебных кланов.</span></p>
+          <span class="news-more"><span class="lang-en">Read more</span><span class="lang-ru">Читать</span> →</span>
+        </div>
+      </article>
+      <article class="news-card reveal d2">
+        <div class="news-thumb"><img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1218480/ss_22663986498f90690f308bf74c75b8462e8b802f.1920x1080.jpg" alt="" loading="lazy"></div>
+        <div class="news-body">
+          <span class="news-date lang-en">DEV DIARY</span>
+          <span class="news-date lang-ru">ДНЕВНИК РАЗРАБОТКИ</span>
+          <h3><span class="lang-en">Capture or recruit: NPC system</span><span class="lang-ru">Пленить или завербовать: система НПС</span></h3>
+          <p><span class="lang-en">Defeated enemies don't have to die — take them prisoner or win them over to grow your tribe.</span><span class="lang-ru">Побеждённым врагам не обязательно умирать — бери их в плен или переманивай в своё племя.</span></p>
+          <span class="news-more"><span class="lang-en">Read more</span><span class="lang-ru">Читать</span> →</span>
+        </div>
+      </article>
+      <article class="news-card reveal d3">
+        <div class="news-thumb"><img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1218480/ss_2c2020591a34735f74d0fbc5500e670e6ce17862.1920x1080.jpg" alt="" loading="lazy"></div>
+        <div class="news-body">
+          <span class="news-date lang-en">DEV DIARY</span>
+          <span class="news-date lang-ru">ДНЕВНИК РАЗРАБОТКИ</span>
+          <h3><span class="lang-en">Advanced weather is on the way</span><span class="lang-ru">Продвинутая погода в пути</span></h3>
+          <p><span class="lang-en">Rain that floods rivers, storms that break camps, seasons that change how you hunt and farm.</span><span class="lang-ru">Дожди, разливающие реки, бури, ломающие лагеря, и сезоны, меняющие охоту и земледелие.</span></p>
+          <span class="news-more"><span class="lang-en">Read more</span><span class="lang-ru">Читать</span> →</span>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= VISION ================= -->
+<section class="sec vision" id="about">
+  <div class="vision-bg" aria-hidden="true"><img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1218480/ss_49329c362419118187814fe619d605c0f27b01f1.1920x1080.jpg" alt="" loading="lazy"></div>
+  <div class="wrap vision-inner reveal">
+    <span class="kicker lang-en">About the game</span>
+    <span class="kicker lang-ru">Об игре</span>
+    <h2><span class="lang-en">An era of deadly danger</span><span class="lang-ru">Эпоха смертельных опасностей</span></h2>
+    <p class="lang-en">Your tribe is gone. Alone in a randomly generated prehistoric world of five wild biomes, you start with bare hands: build a shelter, craft tools and weapons, hunt, fish and survive the night.</p>
+    <p class="lang-ru">Твоего племени больше нет. Один в случайно генерируемом первобытном мире с пятью дикими биомами, ты начинаешь с голыми руками: строишь укрытие, создаёшь орудия и оружие, охотишься, рыбачишь и переживаешь ночь.</p>
+    <p class="lang-en">But survival is only the beginning. <span class="accent">SkyPrimal</span> is about founding a <span class="accent2">new tribe</span>: raise a settlement, tame beasts, farm the land, trade with neighbours — or wage war, capture their warriors and turn them into your own.</p>
+    <p class="lang-ru">Но выживание — лишь начало. <span class="accent">SkyPrimal</span> — игра про создание <span class="accent2">нового племени</span>: строй поселение, приручай зверей, возделывай землю, торгуй с соседями — или веди войну, бери пленных и делай их своими.</p>
+  </div>
+</section>
+
+<!-- ================= FEATURES ================= -->
+<section class="sec" id="features">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="kicker lang-en">Game Features</span>
+      <span class="kicker lang-ru">Особенности игры</span>
+      <h2><span class="lang-en">Forge your tribe's legend</span><span class="lang-ru">Куй легенду своего племени</span></h2>
+    </div>
+    <div class="feat-grid">
+      <div class="feat-card reveal d1">
+        <div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M3 21h18M12 3L4 11v10h5v-6h6v6h5V11z"/></svg></div>
+        <h3><span class="lang-en">Build your settlement</span><span class="lang-ru">Строй своё поселение</span></h3>
+        <p><span class="lang-en">From a campfire and a hut to a fortified village: dozens of buildings, tools and equipment to craft.</span><span class="lang-ru">От костра и хижины до укреплённой деревни: десятки построек, орудий и снаряжения для крафта.</span></p>
+      </div>
+      <div class="feat-card reveal d2">
+        <div class="feat-icon"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><circle cx="17" cy="10" r="2.5"/><path d="M2.5 20c.8-3.5 3.4-5.5 6.5-5.5s5.7 2 6.5 5.5M14.5 15.6c2.4.4 4.3 2 5 4.4"/></svg></div>
+        <h3><span class="lang-en">Co-op &amp; your own tribe</span><span class="lang-ru">Кооператив и своё племя</span></h3>
+        <p><span class="lang-en">Survive together: found a tribe with friends, share a settlement and divide the work between hunters, builders and farmers.</span><span class="lang-ru">Выживайте вместе: основывай племя с друзьями, делите поселение и роли — охотники, строители, фермеры.</span></p>
+      </div>
+      <div class="feat-card reveal d3">
+        <div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M3 21l6-6M14 4l6 6M4 10l10 10M20 4l-8 8M4 4l3 3M17 17l3 3"/></svg></div>
+        <h3><span class="lang-en">War between tribes</span><span class="lang-ru">Война племён</span></h3>
+        <p><span class="lang-en">Rival tribes want your land. Raid their camps, defend your walls and fight for supremacy over the valley.</span><span class="lang-ru">Соседним племенам нужна твоя земля. Совершай набеги, защищай стены и сражайся за господство над долиной.</span></p>
+      </div>
+      <div class="feat-card reveal d1">
+        <div class="feat-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="7" r="3.5"/><path d="M5.5 21c.7-4 3.2-6.5 6.5-6.5s5.8 2.5 6.5 6.5M9 17l-2 4M15 17l2 4"/></svg></div>
+        <h3><span class="lang-en">Capture &amp; recruit NPCs</span><span class="lang-ru">Плен и вербовка НПС</span></h3>
+        <p><span class="lang-en">Take prisoners from enemy tribes — or win their loyalty and let them hunt, guard and build for you.</span><span class="lang-ru">Бери жителей чужих племён в плен — или заслужи их преданность, и они будут охотиться, охранять и строить для тебя.</span></p>
+      </div>
+      <div class="feat-card reveal d2">
+        <div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M17 18a4 4 0 0 0 0-8 5.5 5.5 0 0 0-10.4-1.6A4.5 4.5 0 0 0 7 18z"/><path d="M8 21l1-1.8M12 22l1-1.8M16 21l1-1.8"/></svg></div>
+        <h3><span class="lang-en">Advanced weather</span><span class="lang-ru">Продвинутая погода</span></h3>
+        <p><span class="lang-en">Dynamic rains, storms, fog and heat. Weather changes hunting, farming and war — adapt or perish.</span><span class="lang-ru">Динамические дожди, бури, туман и зной. Погода меняет охоту, земледелие и войну — приспосабливайся или погибни.</span></p>
+      </div>
+      <div class="feat-card reveal d3">
+        <div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M4 7h13l3 3-3 3H4zM20 17H7l-3-3"/><path d="M8 4v3M8 13v3"/></svg></div>
+        <h3><span class="lang-en">Barter &amp; trade</span><span class="lang-ru">Обмен и торговля</span></h3>
+        <p><span class="lang-en">An advanced barter economy: exchange resources, tools and livestock with friendly tribes and traders.</span><span class="lang-ru">Продвинутая экономика обмена: меняйся ресурсами, орудиями и скотом с дружественными племенами и торговцами.</span></p>
+      </div>
+      <div class="feat-card reveal d1">
+        <div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M4 16c2-6 6-10 8-10s6 4 8 10c-2 2-5 3-8 3s-6-1-8-3zM12 6V3M8 19l-1.5 2.5M16 19l1.5 2.5"/></svg></div>
+        <h3><span class="lang-en">Tame wild animals</span><span class="lang-ru">Приручай диких зверей</span></h3>
+        <p><span class="lang-en">Every beast can be a threat — or an ally. Tame predators to guard your camp and beasts of burden to carry your loot.</span><span class="lang-ru">Каждый зверь — угроза или союзник. Приручай хищников для охраны лагеря и вьючных животных для перевозки добычи.</span></p>
+      </div>
+      <div class="feat-card reveal d2">
+        <div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M12 21V11M12 11c0-3-2-5-5-5 0 3 2 5 5 5zM12 11c0-3 2-5 5-5 0 3-2 5-5 5zM5 21h14"/></svg></div>
+        <h3><span class="lang-en">Farming &amp; husbandry</span><span class="lang-ru">Фермерство и скотоводство</span></h3>
+        <p><span class="lang-en">Primal agriculture: plant crops, breed domestic animals and secure food for your growing tribe.</span><span class="lang-ru">Первобытное земледелие: сажай культуры, разводи домашних животных и обеспечивай едой растущее племя.</span></p>
+      </div>
+      <div class="feat-card reveal d3">
+        <div class="feat-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3.5 9h17M3.5 15h17M12 3c-2.5 2.7-3.8 5.8-3.8 9s1.3 6.3 3.8 9c2.5-2.7 3.8-5.8 3.8-9S14.5 5.7 12 3z"/></svg></div>
+        <h3><span class="lang-en">Generated world, 5 biomes</span><span class="lang-ru">Генерируемый мир, 5 биомов</span></h3>
+        <p><span class="lang-en">Every playthrough is a new prehistoric world: five distinct biomes full of resources, beasts and secrets.</span><span class="lang-ru">Каждое прохождение — новый первобытный мир: пять разных биомов, полных ресурсов, зверей и тайн.</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= MEDIA ================= -->
+<section class="sec" id="media" style="padding-top:40px">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="kicker lang-en">Media</span>
+      <span class="kicker lang-ru">Медиа</span>
+      <h2><span class="lang-en">Postcards from the stone age</span><span class="lang-ru">Открытки из каменного века</span></h2>
+      <p><span class="lang-en">Real in-game screenshots from the current Early Access build.</span><span class="lang-ru">Настоящие скриншоты из текущей версии раннего доступа.</span></p>
+    </div>
+    <div class="media-grid">
+      <div class="media-item wide reveal d1"><img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1218480/ss_49329c362419118187814fe619d605c0f27b01f1.1920x1080.jpg" alt="SkyPrimal screenshot" loading="lazy"><span class="lang-en">First camp</span><span class="lang-ru">Первый лагерь</span></div>
+      <div class="media-item reveal d2"><img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1218480/ss_c1b40e06d207794de061a34d4bf8aab0864dd8bd.1920x1080.jpg" alt="SkyPrimal screenshot" loading="lazy"><span class="lang-en">Into the wild</span><span class="lang-ru">В дикие земли</span></div>
+      <div class="media-item reveal d1"><img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1218480/ss_dfe99253b88468ff3c054c5b031ae17af978ade3.1920x1080.jpg" alt="SkyPrimal screenshot" loading="lazy"><span class="lang-en">The hunt</span><span class="lang-ru">Охота</span></div>
+      <div class="media-item wide reveal d2"><img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1218480/ss_22663986498f90690f308bf74c75b8462e8b802f.1920x1080.jpg" alt="SkyPrimal screenshot" loading="lazy"><span class="lang-en">Home before dark</span><span class="lang-ru">Домой до темноты</span></div>
+      <div class="media-item reveal d1" style="grid-column:1/-1"><img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1218480/ss_2c2020591a34735f74d0fbc5500e670e6ce17862.1920x1080.jpg" alt="SkyPrimal screenshot" loading="lazy" style="aspect-ratio:21/8"><span class="lang-en">New lands ahead</span><span class="lang-ru">Впереди новые земли</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ROADMAP ================= -->
+<section class="sec" id="roadmap">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="kicker lang-en">Roadmap</span>
+      <span class="kicker lang-ru">Роадмап</span>
+      <h2><span class="lang-en">The journey ahead</span><span class="lang-ru">Путь впереди</span></h2>
+    </div>
+    <div class="road-grid">
+      <div class="road-card active reveal d1">
+        <div class="road-thumb"><img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1218480/ss_49329c362419118187814fe619d605c0f27b01f1.1920x1080.jpg" alt="" loading="lazy"></div>
+        <div class="road-body">
+          <span class="road-badge lang-en">WE ARE HERE</span>
+          <span class="road-badge lang-ru">МЫ ЗДЕСЬ</span>
+          <span class="road-phase lang-en">PHASE 1 · EARLY ACCESS</span>
+          <span class="road-phase lang-ru">ФАЗА 1 · РАННИЙ ДОСТУП</span>
+          <h3><span class="lang-en">Survival core</span><span class="lang-ru">Ядро выживания</span></h3>
+          <span class="road-date lang-en">NOW</span><span class="road-date lang-ru">СЕЙЧАС</span>
+          <p><span class="lang-en">Shelter building, crafting, hunting, fishing, farming, cooking, five biomes.</span><span class="lang-ru">Строительство укрытий, крафт, охота, рыбалка, земледелие, готовка, пять биомов.</span></p>
+        </div>
+      </div>
+      <div class="road-card reveal d2">
+        <div class="road-thumb"><img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1218480/ss_dfe99253b88468ff3c054c5b031ae17af978ade3.1920x1080.jpg" alt="" loading="lazy"></div>
+        <div class="road-body">
+          <span class="road-phase lang-en">PHASE 2</span>
+          <span class="road-phase lang-ru">ФАЗА 2</span>
+          <h3><span class="lang-en">Tribes &amp; Co-op</span><span class="lang-ru">Племена и кооператив</span></h3>
+          <span class="road-date lang-en">NEXT</span><span class="road-date lang-ru">ДАЛЕЕ</span>
+          <p><span class="lang-en">Found your own tribe, co-op settlements, taming wild animals, husbandry.</span><span class="lang-ru">Создание своего племени, совместные поселения, приручение зверей, скотоводство.</span></p>
+        </div>
+      </div>
+      <div class="road-card reveal d3">
+        <div class="road-thumb"><img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1218480/ss_22663986498f90690f308bf74c75b8462e8b802f.1920x1080.jpg" alt="" loading="lazy"></div>
+        <div class="road-body">
+          <span class="road-phase lang-en">PHASE 3</span>
+          <span class="road-phase lang-ru">ФАЗА 3</span>
+          <h3><span class="lang-en">War &amp; Prisoners</span><span class="lang-ru">Война и пленные</span></h3>
+          <span class="road-date lang-en">IN DEVELOPMENT</span><span class="road-date lang-ru">В РАЗРАБОТКЕ</span>
+          <p><span class="lang-en">Tribal warfare, raids, capturing and recruiting NPCs from rival tribes.</span><span class="lang-ru">Войны племён, набеги, захват в плен и вербовка НПС из чужих племён.</span></p>
+        </div>
+      </div>
+      <div class="road-card reveal d3">
+        <div class="road-thumb"><img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1218480/ss_2c2020591a34735f74d0fbc5500e670e6ce17862.1920x1080.jpg" alt="" loading="lazy"></div>
+        <div class="road-body">
+          <span class="road-phase lang-en">PHASE 4 · RELEASE 1.0</span>
+          <span class="road-phase lang-ru">ФАЗА 4 · РЕЛИЗ 1.0</span>
+          <h3><span class="lang-en">Living world</span><span class="lang-ru">Живой мир</span></h3>
+          <span class="road-date lang-en">FUTURE</span><span class="road-date lang-ru">ПОЗЖЕ</span>
+          <p><span class="lang-en">Advanced weather and seasons, barter economy between tribes, full release.</span><span class="lang-ru">Продвинутая погода и сезоны, экономика обмена между племенами, полный релиз.</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= NEWSLETTER ================= -->
+<section class="sec newsletter" id="newsletter">
+  <div class="wrap nl-inner reveal">
+    <span class="kicker lang-en">Join the tribe</span>
+    <span class="kicker lang-ru">Вступай в племя</span>
+    <h2><span class="lang-en">Don't survive alone</span><span class="lang-ru">Не выживай в одиночку</span></h2>
+    <p style="color:var(--muted);margin-top:16px">
+      <span class="lang-en">Get update news, dev diaries and playtest invites. No spam — only smoke signals.</span>
+      <span class="lang-ru">Получай новости обновлений, дневники разработки и приглашения на плейтесты. Без спама — только дымовые сигналы.</span>
+    </p>
+    <form class="nl-form" id="nlForm">
+      <input type="email" required id="nlEmail" placeholder="you@example.com" aria-label="Email">
+      <button class="btn btn-teal" type="submit"><span class="lang-en">Subscribe</span><span class="lang-ru">Подписаться</span></button>
+    </form>
+    <div class="nl-ok" id="nlOk">
+      <span class="lang-en">✓ Welcome to the tribe, survivor!</span>
+      <span class="lang-ru">✓ Добро пожаловать в племя, выживший!</span>
+    </div>
+    <div style="margin-top:28px">
+      <a class="btn btn-ghost" href="https://discord.gg/HghyTNdt4V" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.3 4.4A19.8 19.8 0 0 0 15.9 3l-.2.4c1.6.4 3 1.1 4.3 2a16.2 16.2 0 0 0-14 0c1.3-.9 2.7-1.6 4.3-2L10 3a19.8 19.8 0 0 0-4.4 1.4C2.8 8.6 2 12.7 2.4 16.7a19.9 19.9 0 0 0 6 3l.5-.8a13 13 0 0 1-2.1-1l.5-.4a14.3 14.3 0 0 0 12.2 0l.5.4c-.7.4-1.4.8-2.1 1l.5.8a19.8 19.8 0 0 0 6-3c.5-4.6-.7-8.6-3.1-12.3zM9.7 14.2c-1 0-1.8-.9-1.8-2s.8-2 1.8-2 1.8.9 1.8 2-.8 2-1.8 2zm6.6 0c-1 0-1.8-.9-1.8-2s.8-2 1.8-2 1.8.9 1.8 2-.8 2-1.8 2z"/></svg>
+        <span class="lang-en">Join our Discord</span><span class="lang-ru">Наш Discord</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="logo" href="#top">
+          <svg viewBox="0 0 40 40" aria-hidden="true">
+            <path d="M20 3 L34 15 L28 15 L28 24 L12 24 L12 15 L6 15 Z" fill="url(#lg1)"/>
+            <path d="M13 27 L27 27 L23 33 L20 30 L17 34 Z" fill="#a3e06f" opacity=".7"/>
+          </svg>
+          SKY<b>PRIMAL</b>
+        </a>
+        <p><span class="lang-en">A prehistoric survival game by Primal Apps Studio: build a settlement, found a tribe and fight for supremacy. In Early Access on Steam.</span><span class="lang-ru">Первобытное выживание от Primal Apps Studio: строй поселение, создавай племя и сражайся за господство. В раннем доступе Steam.</span></p>
+        <div class="socials">
+          <a href="https://discord.gg/HghyTNdt4V" target="_blank" rel="noopener" aria-label="Discord"><svg viewBox="0 0 24 24"><path d="M20.3 4.4A19.8 19.8 0 0 0 15.9 3l-.2.4c1.6.4 3 1.1 4.3 2a16.2 16.2 0 0 0-14 0c1.3-.9 2.7-1.6 4.3-2L10 3a19.8 19.8 0 0 0-4.4 1.4C2.8 8.6 2 12.7 2.4 16.7a19.9 19.9 0 0 0 6 3l.5-.8a13 13 0 0 1-2.1-1l.5-.4a14.3 14.3 0 0 0 12.2 0l.5.4c-.7.4-1.4.8-2.1 1l.5.8a19.8 19.8 0 0 0 6-3c.5-4.6-.7-8.6-3.1-12.3zM9.7 14.2c-1 0-1.8-.9-1.8-2s.8-2 1.8-2 1.8.9 1.8 2-.8 2-1.8 2zm6.6 0c-1 0-1.8-.9-1.8-2s.8-2 1.8-2 1.8.9 1.8 2-.8 2-1.8 2z"/></svg></a>
+          <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24"><path d="M23 7.5s-.2-1.6-.9-2.3c-.9-.9-1.9-.9-2.4-1C16.6 4 12 4 12 4s-4.6 0-7.7.2c-.5.1-1.5.1-2.4 1-.7.7-.9 2.3-.9 2.3S1 9.4 1 11.3v1.4c0 1.9.2 3.8.2 3.8s.2 1.6.9 2.3c.9.9 2 .9 2.5 1 1.9.2 7.4.2 7.4.2s4.6 0 7.7-.2c.5-.1 1.5-.1 2.4-1 .7-.7.9-2.3.9-2.3s.2-1.9.2-3.8v-1.4c0-1.9-.2-3.8-.2-3.8zM9.8 15V8.6l6.1 3.2L9.8 15z"/></svg></a>
+          <a href="#" aria-label="X / Twitter"><svg viewBox="0 0 24 24"><path d="M17.7 3H21l-7.1 8.2L22.2 21h-6.6l-5.1-6.1L4.6 21H1.3l7.6-8.7L2 3h6.8l4.6 5.5L17.7 3zm-1.2 16h1.8L7.7 4.9H5.8L16.5 19z"/></svg></a>
+          <a href="https://store.steampowered.com/app/1218480" target="_blank" rel="noopener" aria-label="Steam"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-10 9.3l5.4 2.2a2.8 2.8 0 0 1 1.6-.5h.2l2.4-3.5v-.1a3.8 3.8 0 1 1 3.8 3.8h-.1L11.9 16v.2a2.8 2.8 0 0 1-5.6.3l-3.9-1.6A10 10 0 1 0 12 2zm-5.7 13.9 1.3.5a2.1 2.1 0 1 0 1.1-2.7l1.3.5a1.6 1.6 0 0 1-3.7 1.7zm11.5-8.6a2.5 2.5 0 1 0-5 0 2.5 2.5 0 0 0 5 0zm-4.4 0a1.9 1.9 0 1 1 3.8 0 1.9 1.9 0 0 1-3.8 0z"/></svg></a>
+        </div>
+      </div>
+      <div class="foot-col">
+        <h4><span class="lang-en">GAME</span><span class="lang-ru">ИГРА</span></h4>
+        <a href="#about"><span class="lang-en">About</span><span class="lang-ru">Об игре</span></a>
+        <a href="#features"><span class="lang-en">Features</span><span class="lang-ru">Особенности</span></a>
+        <a href="#roadmap"><span class="lang-en">Roadmap</span><span class="lang-ru">Роадмап</span></a>
+        <a href="#media"><span class="lang-en">Media</span><span class="lang-ru">Медиа</span></a>
+      </div>
+      <div class="foot-col">
+        <h4><span class="lang-en">COMMUNITY</span><span class="lang-ru">СООБЩЕСТВО</span></h4>
+        <a href="https://discord.gg/HghyTNdt4V" target="_blank" rel="noopener">Discord</a>
+        <a href="https://store.steampowered.com/app/1218480" target="_blank" rel="noopener">Steam</a>
+        <a href="#news"><span class="lang-en">News</span><span class="lang-ru">Новости</span></a>
+      </div>
+      <div class="foot-col">
+        <h4><span class="lang-en">SUPPORT</span><span class="lang-ru">ПОДДЕРЖКА</span></h4>
+        <a href="#"><span class="lang-en">FAQ</span><span class="lang-ru">Вопросы и ответы</span></a>
+        <a href="#"><span class="lang-en">Contact</span><span class="lang-ru">Контакты</span></a>
+        <a href="#"><span class="lang-en">Press kit</span><span class="lang-ru">Пресс-кит</span></a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Primal Apps Studio. <span class="lang-en">All rights reserved.</span><span class="lang-ru">Все права защищены.</span></span>
+      <span>
+        <a href="#"><span class="lang-en">Privacy Policy</span><span class="lang-ru">Политика конфиденциальности</span></a>
+        &nbsp;·&nbsp;
+        <a href="#"><span class="lang-en">Terms of Use</span><span class="lang-ru">Условия использования</span></a>
+      </span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ======== procedural placeholder scenes ======== */
+function mulberry(seed){return function(){seed|=0;seed=seed+0x6D2B79F5|0;var t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function scene(cfg){
+  const W=800,H=cfg.h||450,r=mulberry(cfg.seed||1);
+  const [c1,c2,c3]=cfg.sky;           // sky gradient stops
+  const id='g'+cfg.seed;
+  let s=`<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid slice" role="img" aria-label="concept art placeholder">`;
+  s+=`<defs><linearGradient id="${id}" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="${c1}"/><stop offset=".6" stop-color="${c2}"/><stop offset="1" stop-color="${c3}"/></linearGradient>
+      <linearGradient id="${id}r" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="${cfg.rockTop||'#3d4f6e'}"/><stop offset="1" stop-color="${cfg.rockBot||'#0c1424'}"/></linearGradient>
+      <radialGradient id="${id}s" cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="${cfg.glow||'#ffd9a0'}" stop-opacity=".9"/><stop offset="1" stop-color="${cfg.glow||'#ffd9a0'}" stop-opacity="0"/></radialGradient></defs>`;
+  s+=`<rect width="${W}" height="${H}" fill="url(#${id})"/>`;
+  // stars
+  if(cfg.stars){for(let i=0;i<70;i++){s+=`<circle cx="${r()*W}" cy="${r()*H*.55}" r="${.5+r()*1.3}" fill="#fff" opacity="${.2+r()*.6}"/>`}}
+  // glow
+  s+=`<circle cx="${cfg.gx??W*.5}" cy="${cfg.gy??H*.85}" r="${H*.7}" fill="url(#${id}s)"/>`;
+  // cloud bands
+  for(let i=0;i<4;i++){const y=H*.55+r()*H*.4;s+=`<ellipse cx="${r()*W}" cy="${y}" rx="${140+r()*220}" ry="${10+r()*16}" fill="${cfg.cloud||'#22385a'}" opacity="${.25+r()*.35}"/>`}
+  // islands — one per horizontal band so they don't pile up
+  const n=cfg.isles||3;
+  const band=W/n;
+  for(let i=0;i<n;i++){
+    const w=Math.min(70+r()*110,band*.42), x=band*i+band*.5+(r()-.5)*band*.25, y=H*(.26+r()*.38), d=w*(.7+r()*.5);
+    const grass=cfg.grass||'#57c9a6';
+    s+=`<g><path d="M${x-w} ${y} L${x+w} ${y} L${x+w*.62} ${y+d*.55} L${x+w*.12} ${y+d} L${x-w*.4} ${y+d*.6} L${x-w*.75} ${y+d*.3} Z" fill="url(#${id}r)"/>`;
+    s+=`<path d="M${x-w} ${y} L${x+w} ${y} L${x+w*.86} ${y+12} L${x-w*.86} ${y+12} Z" fill="${grass}"/>`;
+    if(r()>.4){const hx=x-w*.3+r()*w*.6;s+=`<path d="M${hx} ${y} l0 -${14+r()*10} l${9} -${7} l${9} ${7} l0 ${14+r()*10} Z" fill="#243652"/>`}
+    if(r()>.5){const fx=x-w*.5+r()*w;s+=`<rect x="${fx}" y="${y+12}" width="6" height="${40+r()*60}" fill="#bfe9ff" opacity=".5"/>`}
+    s+=`</g>`;
+  }
+  // birds
+  for(let i=0;i<3;i++){const bx=r()*W,by=r()*H*.4;s+=`<path d="M${bx} ${by} q9 -10 18 0 q9 -10 18 0" stroke="#dce9fb" stroke-width="2.5" fill="none" opacity=".8"/>`}
+  s+=`</svg>`;
+  return s;
+}
+const scenes={
+  trailer:{seed:11,h:450,sky:['#071022','#1a3a5c','#e8934a'],stars:1,isles:4,gy:430,glow:'#ffc27a'},
+  news1:{seed:21,h:300,sky:['#0a1830','#245478','#f2a955'],isles:2,glow:'#ffcf8a'},
+  news2:{seed:33,h:300,sky:['#060d1d','#12304e','#3f7d8f'],isles:2,stars:1,glow:'#7fe0d0',grass:'#49b9a0'},
+  news3:{seed:47,h:300,sky:['#150f2b','#3b2a58','#e07a5f'],isles:2,glow:'#ffa98a',grass:'#5cc79b',cloud:'#33254e'},
+  vision:{seed:55,h:520,sky:['#05080f','#0a1526','#132b45'],stars:1,isles:5,glow:'#3a6a9c',cloud:'#101d33'},
+  shot1:{seed:61,h:340,sky:['#0a1a33','#2c5b80','#ffb066'],isles:3,glow:'#ffd9a0'},
+  shot2:{seed:72,h:340,sky:['#05070f','#101b33','#2a4560'],stars:1,isles:2,glow:'#6f96c9',cloud:'#0d1729',grass:'#3fa78f'},
+  shot3:{seed:83,h:340,sky:['#0c1c2e','#1e4a5f','#e9a35b'],isles:2,glow:'#ffc98a'},
+  shot4:{seed:94,h:340,sky:['#040613','#0b1230','#25234e'],stars:1,isles:4,glow:'#8f7fe0',cloud:'#151238',grass:'#4fb39b'},
+  road1:{seed:101,h:240,sky:['#0a1a33','#245478','#f2a955'],isles:1,glow:'#ffcf8a'},
+  road2:{seed:112,h:240,sky:['#0d1a2e','#1e4a5f','#57c9a6'],isles:2,glow:'#7fe0d0'},
+  road3:{seed:123,h:240,sky:['#150f2b','#3b2a58','#e07a5f'],isles:2,glow:'#ffa98a'},
+  road4:{seed:134,h:240,sky:['#040613','#0b1230','#25234e'],stars:1,isles:3,glow:'#8f7fe0'}
+};
+document.querySelectorAll('[data-scene]').forEach(el=>{
+  const cfg=scenes[el.dataset.scene];if(cfg)el.insertAdjacentHTML('afterbegin',scene(cfg));
+});
+/* stars in hero */
+(function(){
+  const g=document.getElementById('stars');if(!g)return;const r=mulberry(7);let h='';
+  for(let i=0;i<120;i++){h+=`<circle cx="${r()*1600}" cy="${r()*560}" r="${.5+r()*1.4}" fill="#fff" opacity="${.15+r()*.6}"/>`}
+  g.innerHTML=h;
+})();
+/* ======== nav ======== */
+const nav=document.getElementById('nav');
+addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>40),{passive:true});
+const burger=document.getElementById('burger'),links=document.getElementById('navLinks');
+burger.addEventListener('click',()=>links.classList.toggle('open'));
+links.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>links.classList.remove('open')));
+/* ======== language ======== */
+const langBtn=document.getElementById('langBtn');
+let ru=false;
+function applyLang(){
+  document.body.classList.toggle('ru',ru);
+  langBtn.textContent=ru?'EN':'RU';
+  document.documentElement.lang=ru?'ru':'en';
+}
+langBtn.addEventListener('click',()=>{ru=!ru;applyLang()});
+if((navigator.language||'').toLowerCase().startsWith('ru')){ru=true;applyLang()}
+/* ======== reveal on scroll ======== */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target)}}),{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+/* ======== newsletter ======== */
+document.getElementById('nlForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  document.getElementById('nlOk').style.display='block';
+  document.getElementById('nlEmail').value='';
+});
+</script>
+</body>
+</html>
