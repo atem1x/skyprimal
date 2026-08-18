@@ -291,18 +291,9 @@ h1,h2,h3,h4{font-family:var(--font-d);text-transform:uppercase;letter-spacing:.0
   align-self:flex-start;font-family:var(--font-d);font-size:11px;font-weight:700;letter-spacing:.16em;
   padding:5px 10px;background:var(--amber-dim);color:var(--amber);border:1px solid rgba(255,180,84,.4);margin-bottom:4px;
 }
-/* ============ NEWSLETTER ============ */
-.newsletter{position:relative;overflow:hidden;background:linear-gradient(180deg,var(--bg2),var(--bg))}
+/* ============ COMMUNITY ============ */
+.community{position:relative;overflow:hidden;background:linear-gradient(180deg,var(--bg2),var(--bg))}
 .nl-inner{max-width:680px;margin:0 auto;text-align:center;position:relative;z-index:2}
-.nl-form{display:flex;gap:14px;margin-top:36px;flex-wrap:wrap;justify-content:center}
-.nl-form input{
-  flex:1;min-width:260px;background:rgba(232,238,248,.06);border:1px solid var(--line);
-  color:var(--text);font-family:var(--font-b);font-size:17px;padding:16px 22px;outline:none;
-  clip-path:polygon(12px 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%,0 12px);
-  transition:border-color .2s,background .2s;
-}
-.nl-form input:focus{border-color:var(--teal);background:rgba(143,209,96,.06)}
-.nl-ok{display:none;margin-top:22px;color:var(--teal);font-family:var(--font-d);font-weight:600;letter-spacing:.08em}
 /* ============ FOOTER ============ */
 footer{border-top:1px solid var(--line);padding:64px 0 40px;background:#04060c}
 .foot-grid{display:flex;gap:60px;flex-wrap:wrap;justify-content:space-between;margin-bottom:48px}
@@ -677,8 +668,8 @@ footer{border-top:1px solid var(--line);padding:64px 0 40px;background:#04060c}
   </div>
 </section>
 
-<!-- ================= NEWSLETTER ================= -->
-<section class="sec newsletter" id="newsletter">
+<!-- ================= COMMUNITY ================= -->
+<section class="sec community" id="community">
   <div class="wrap nl-inner reveal">
     <span class="kicker lang-en">Join the tribe</span>
     <span class="kicker lang-ru">Вступай в племя</span>
@@ -686,22 +677,12 @@ footer{border-top:1px solid var(--line);padding:64px 0 40px;background:#04060c}
     <span class="kicker lang-fr">Rejoins la tribu</span>
     <h2><span class="lang-en">Don't survive alone</span><span class="lang-ru">Не выживай в одиночку</span><span class="lang-uk">Не виживай наодинці</span><span class="lang-fr">Ne survis pas seul</span></h2>
     <p style="color:var(--muted);margin-top:16px">
-      <span class="lang-en">Get update news, dev diaries and playtest invites. No spam — only smoke signals.</span>
-      <span class="lang-ru">Получай новости обновлений, дневники разработки и приглашения на плейтесты. Без спама — только дымовые сигналы.</span>
-      <span class="lang-uk">Отримуй новини оновлень, щоденники розробки та запрошення на плейтести. Без спаму — лише димові сигнали.</span>
-      <span class="lang-fr">Reçois les nouvelles des mises à jour, les journaux de dev et les invitations aux playtests. Pas de spam — que des signaux de fumée.</span>
+      <span class="lang-en">Update news, dev diaries and playtest invites land in our Discord first. No spam — only smoke signals.</span>
+      <span class="lang-ru">Новости обновлений, дневники разработки и приглашения на плейтесты появляются в нашем Discord первыми. Без спама — только дымовые сигналы.</span>
+      <span class="lang-uk">Новини оновлень, щоденники розробки та запрошення на плейтести з'являються в нашому Discord першими. Без спаму — лише димові сигнали.</span>
+      <span class="lang-fr">Les nouvelles des mises à jour, les journaux de dev et les invitations aux playtests arrivent d'abord sur notre Discord. Pas de spam — que des signaux de fumée.</span>
     </p>
-    <form class="nl-form" id="nlForm">
-      <input type="email" required id="nlEmail" placeholder="you@example.com" aria-label="Email">
-      <button class="btn btn-teal" type="submit"><span class="lang-en">Subscribe</span><span class="lang-ru">Подписаться</span><span class="lang-uk">Підписатися</span><span class="lang-fr">S'abonner</span></button>
-    </form>
-    <div class="nl-ok" id="nlOk">
-      <span class="lang-en">✓ Welcome to the tribe, survivor!</span>
-      <span class="lang-ru">✓ Добро пожаловать в племя, выживший!</span>
-      <span class="lang-uk">✓ Ласкаво просимо до племені, вцілілий!</span>
-      <span class="lang-fr">✓ Bienvenue dans la tribu, survivant !</span>
-    </div>
-    <div style="margin-top:28px">
+    <div style="margin-top:36px">
       <a class="btn btn-ghost" href="https://discord.gg/HghyTNdt4V" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.3 4.4A19.8 19.8 0 0 0 15.9 3l-.2.4c1.6.4 3 1.1 4.3 2a16.2 16.2 0 0 0-14 0c1.3-.9 2.7-1.6 4.3-2L10 3a19.8 19.8 0 0 0-4.4 1.4C2.8 8.6 2 12.7 2.4 16.7a19.9 19.9 0 0 0 6 3l.5-.8a13 13 0 0 1-2.1-1l.5-.4a14.3 14.3 0 0 0 12.2 0l.5.4c-.7.4-1.4.8-2.1 1l.5.8a19.8 19.8 0 0 0 6-3c.5-4.6-.7-8.6-3.1-12.3zM9.7 14.2c-1 0-1.8-.9-1.8-2s.8-2 1.8-2 1.8.9 1.8 2-.8 2-1.8 2zm6.6 0c-1 0-1.8-.9-1.8-2s.8-2 1.8-2 1.8.9 1.8 2-.8 2-1.8 2z"/></svg>
         <span class="lang-en">Join our Discord</span><span class="lang-ru">Наш Discord</span><span class="lang-uk">Наш Discord</span><span class="lang-fr">Notre Discord</span>
@@ -853,12 +834,6 @@ applyLang();
 /* ======== reveal on scroll ======== */
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target)}}),{threshold:.12});
 document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
-/* ======== newsletter ======== */
-document.getElementById('nlForm').addEventListener('submit',e=>{
-  e.preventDefault();
-  document.getElementById('nlOk').style.display='block';
-  document.getElementById('nlEmail').value='';
-});
 </script>
 </body>
 </html>
