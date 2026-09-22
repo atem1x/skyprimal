@@ -62,6 +62,8 @@ h1,h2,h3,h4{font-family:var(--font-d);text-transform:uppercase;letter-spacing:.0
   padding:6px 18px;border:1px solid rgba(143,209,96,.35);border-radius:2px;
   background:var(--teal-dim);margin-bottom:22px;
 }
+/* the language toggle forces span.lang-xx to inline; keep the badge a box in every language */
+body.ru .kicker.lang-ru,body.uk .kicker.lang-uk,body.fr .kicker.lang-fr{display:inline-block}
 .sec-head h2{font-size:clamp(30px,4.5vw,48px);font-weight:700}
 .sec-head p{max-width:640px;margin:18px auto 0;color:var(--muted);font-size:19px}
 /* ============ BUTTONS ============ */
