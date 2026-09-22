@@ -129,6 +129,14 @@ body.ru .kicker.lang-ru,body.uk .kicker.lang-uk,body.fr .kicker.lang-fr{display:
   padding:9px 0;box-shadow:0 6px 22px rgba(0,0,0,.45),0 0 0 1px rgba(255,220,160,.35) inset;
 }
 .nav-inner{padding-right:118px}
+/* laptops: tighter nav + smaller ribbon, so the ribbon never covers the CTA and nav labels stay on one line */
+@media(min-width:1001px) and (max-width:1400px){
+  .nav-inner{gap:16px;padding-right:128px}
+  .nav-links{gap:14px}
+  .nav-links a{letter-spacing:.08em;white-space:nowrap}
+  .beta-ribbon{width:170px;font-size:12px;top:24px;right:-46px;padding:8px 0}
+}
+@media(min-width:1001px) and (max-width:1120px){.nav-links a{font-size:13px}}
 .burger span{display:block;width:26px;height:2px;background:var(--text);margin:6px 0;transition:.3s}
 /* ============ HERO ============ */
 .hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden}
